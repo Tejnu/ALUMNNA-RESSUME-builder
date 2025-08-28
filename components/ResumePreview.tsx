@@ -1,4 +1,3 @@
-
 'use client';
 
 import { ResumeData } from '@/types/resume';
@@ -72,7 +71,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
   useEffect(() => {
     const loadHtml2PdfScript = () => {
       if (document.querySelector('script[src*="html2pdf"]')) return;
-      
+
       const script = document.createElement('script');
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
       script.async = true;
@@ -81,90 +80,98 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
       };
       document.body.appendChild(script);
     };
-    
+
     if (typeof window !== 'undefined') {
       loadHtml2PdfScript();
     }
   }, []);
 
   const downloadPDF = async () => {
-    if (isDownloading) return;
+    if (!resumeRef.current) return;
+
     setIsDownloading(true);
-    
     try {
-      const element = document.getElementById('resume-preview-content');
-      if (!element) {
-        throw new Error('Resume preview element not found');
+      // Check if html2pdf is available globally first
+      let html2pdf;
+      if (typeof window !== 'undefined' && (window as any).html2pdf) {
+        html2pdf = (window as any).html2pdf;
+      } else {
+        // Try dynamic import as fallback
+        try {
+          const module = await import('html2pdf.js');
+          html2pdf = module.default;
+        } catch (importError) {
+          console.warn('html2pdf not available, using print fallback');
+          window.print();
+          setIsDownloading(false);
+          return;
+        }
       }
 
-      const fileName = `${resumeData.personalInfo?.fullName?.replace(/\s+/g, '_') || 'Resume'}_${resumeData.selectedTemplate}.pdf`;
-      
-      // Check if html2pdf is available
-      if (!(window as any).html2pdf) {
-        throw new Error('PDF library not loaded');
-      }
-
+      const element = resumeRef.current;
       const options = {
-        margin: 0.5,
-        filename: fileName,
-        image: { type: 'jpeg', quality: 0.98 },
+        margin: [10, 10, 10, 10],
+        filename: `${resumeData.personalInfo?.fullName?.replace(/\s+/g, '_') || 'resume'}.pdf`,
+        image: { 
+          type: 'jpeg', 
+          quality: 0.95 
+        },
         html2canvas: { 
           scale: 2,
           useCORS: true,
+          allowTaint: true,
           backgroundColor: '#ffffff',
+          letterRendering: true,
           logging: false
         },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'portrait',
+          compress: true
+        },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
 
-      const html2pdf = (window as any).html2pdf;
       await html2pdf().set(options).from(element).save();
-      
     } catch (error) {
-      console.error('Error downloading PDF:', error);
-      
-      // Fallback to print method
-      const element = document.getElementById('resume-preview-content');
-      if (element) {
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-          printWindow.document.write(`
-            <!DOCTYPE html>
-            <html lang="en">
-              <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${resumeData.personalInfo?.fullName || 'Resume'} - Resume</title>
-                <style>
-                  * { margin: 0; padding: 0; box-sizing: border-box; }
-                  body { 
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    line-height: 1.5;
-                    color: #1f2937;
-                    background: white;
-                  }
-                  @page { margin: 0.5in; size: letter; }
-                  @media print { body { -webkit-print-color-adjust: exact; } }
-                  .resume-content { width: 100%; background: white; }
-                </style>
-              </head>
-              <body>
-                <div class="resume-content">
-                  ${element.innerHTML}
-                </div>
-                <script>
-                  window.onload = function() {
-                    setTimeout(() => { 
-                      window.print(); 
-                      setTimeout(() => window.close(), 500); 
-                    }, 1000);
-                  };
-                </script>
-              </body>
-            </html>
-          `);
-          printWindow.document.close();
-        }
+      console.error('PDF generation failed:', error);
+      // Enhanced fallback with better print styling
+      const printWindow = window.open('', '_blank');
+      if (printWindow && resumeRef.current) {
+        const printContent = resumeRef.current.outerHTML;
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Resume - ${resumeData.personalInfo?.fullName || 'Download'}</title>
+              <style>
+                @page { 
+                  margin: 0.5in; 
+                  size: letter; 
+                }
+                body { 
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  margin: 0;
+                  padding: 0;
+                  line-height: 1.4;
+                }
+                .no-print { display: none !important; }
+                * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+              </style>
+            </head>
+            <body>
+              ${printContent}
+              <script>
+                window.onload = function() {
+                  window.print();
+                  window.close();
+                };
+              </script>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
       }
     } finally {
       setIsDownloading(false);
@@ -188,7 +195,7 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"

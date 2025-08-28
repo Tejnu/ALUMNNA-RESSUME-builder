@@ -302,9 +302,9 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
   };
 
   return (
-    <Card className="border-green-200" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.05) 0%, rgba(30, 58, 138, 0.05) 100%)' }}>
+    <Card className="card-modern">
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2 icon-success">
+        <CardTitle className="flex items-center space-x-2 gradient-text">
           <BarChart3 className="h-5 w-5" />
           <span>Resume Analyzer</span>
         </CardTitle>
@@ -325,7 +325,7 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
             <Button 
               onClick={analyzeResume}
               disabled={isAnalyzing}
-              className="btn-success"
+              className="btn-primary w-full text-lg py-4"
             >
               {isAnalyzing ? (
                 <>
