@@ -99,122 +99,73 @@ export function ResumePreview({ resumeData }: ResumePreviewProps) {
 
       const fileName = `${resumeData.personalInfo?.fullName?.replace(/\s+/g, '_') || 'Resume'}_${resumeData.selectedTemplate}.pdf`;
       
-      // First try html2pdf for better quality
-      if ((window as any).html2pdf) {
-        try {
-          const options = {
-            margin: 0.5,
-            filename: fileName,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-              scale: 2,
-              useCORS: true,
-              backgroundColor: '#ffffff',
-              logging: false,
-              allowTaint: true,
-              foreignObjectRendering: true
-            },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-          };
-
-          const html2pdf = (window as any).html2pdf;
-          await html2pdf().set(options).from(element).save();
-          return;
-        } catch (html2pdfError) {
-          console.warn('html2pdf failed, falling back to print method:', html2pdfError);
-        }
+      // Check if html2pdf is available
+      if (!(window as any).html2pdf) {
+        throw new Error('PDF library not loaded');
       }
-      
-      // Enhanced fallback method with better styling
-      const clonedElement = element.cloneNode(true) as HTMLElement;
-      
-      // Clean up the cloned element for printing
-      const printStyles = `
-        <!DOCTYPE html>
-        <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${resumeData.personalInfo?.fullName || 'Resume'} - Resume</title>
-            <style>
-              * { 
-                margin: 0; 
-                padding: 0; 
-                box-sizing: border-box; 
-                -webkit-print-color-adjust: exact !important;
-                color-adjust: exact !important;
-              }
-              body { 
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-                line-height: 1.4;
-                color: #1f2937;
-                background: white !important;
-                font-size: 14px;
-              }
-              @page { 
-                margin: 0.5in; 
-                size: A4;
-                background: white;
-              }
-              @media print { 
-                body { 
-                  -webkit-print-color-adjust: exact !important;
-                  print-color-adjust: exact !important;
-                }
-                .no-print { display: none !important; }
-              }
-              .resume-content { 
-                width: 100%; 
-                max-width: 8.5in;
-                margin: 0 auto;
-                background: white !important;
-                padding: 0;
-              }
-              /* Ensure colors and gradients print correctly */
-              .bg-gradient-to-r, .bg-gradient-to-br, .bg-gradient-to-l {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-              }
-              /* Fix any potential layout issues */
-              img { max-width: 100%; height: auto; }
-              .break-words { word-wrap: break-word; }
-              .overflow-hidden { overflow: visible !important; }
-            </style>
-          </head>
-          <body>
-            <div class="resume-content">
-              ${clonedElement.innerHTML}
-            </div>
-            <script>
-              window.onload = function() {
-                // Allow time for fonts and styles to load
-                setTimeout(() => { 
-                  window.print(); 
-                  setTimeout(() => {
-                    if (window.opener) {
-                      window.close();
-                    }
-                  }, 1000); 
-                }, 500);
-              };
-            </script>
-          </body>
-        </html>
-      `;
 
-      const printWindow = window.open('', '_blank', 'width=800,height=600');
-      if (printWindow) {
-        printWindow.document.write(printStyles);
-        printWindow.document.close();
-      } else {
-        // Final fallback - trigger browser print dialog
-        window.print();
-      }
+      const options = {
+        margin: 0.5,
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          logging: false
+        },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+
+      const html2pdf = (window as any).html2pdf;
+      await html2pdf().set(options).from(element).save();
       
     } catch (error) {
       console.error('Error downloading PDF:', error);
-      // Ultimate fallback - just open print dialog
-      window.print();
+      
+      // Fallback to print method
+      const element = document.getElementById('resume-preview-content');
+      if (element) {
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+          printWindow.document.write(`
+            <!DOCTYPE html>
+            <html lang="en">
+              <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${resumeData.personalInfo?.fullName || 'Resume'} - Resume</title>
+                <style>
+                  * { margin: 0; padding: 0; box-sizing: border-box; }
+                  body { 
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    line-height: 1.5;
+                    color: #1f2937;
+                    background: white;
+                  }
+                  @page { margin: 0.5in; size: letter; }
+                  @media print { body { -webkit-print-color-adjust: exact; } }
+                  .resume-content { width: 100%; background: white; }
+                </style>
+              </head>
+              <body>
+                <div class="resume-content">
+                  ${element.innerHTML}
+                </div>
+                <script>
+                  window.onload = function() {
+                    setTimeout(() => { 
+                      window.print(); 
+                      setTimeout(() => window.close(), 500); 
+                    }, 1000);
+                  };
+                </script>
+              </body>
+            </html>
+          `);
+          printWindow.document.close();
+        }
+      }
     } finally {
       setIsDownloading(false);
     }
