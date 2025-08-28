@@ -18,57 +18,57 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 0 0% 0%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 0 0% 0%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --background: 246 246 246;
+    --foreground: 112 112 112;
+    --card: 246 246 246;
+    --card-foreground: 112 112 112;
+    --popover: 246 246 246;
+    --popover-foreground: 112 112 112;
+    --primary: 160 125 241;
+    --primary-foreground: 255 255 255;
+    --secondary: 112 112 112;
+    --secondary-foreground: 255 255 255;
+    --muted: 240 240 240;
+    --muted-foreground: 112 112 112;
+    --accent: 246 157 186;
+    --accent-foreground: 255 255 255;
+    --destructive: 246 157 186;
+    --destructive-foreground: 255 255 255;
+    --border: 224 224 224;
+    --input: 240 240 240;
+    --ring: 160 125 241;
+    --chart-1: 160 125 241;
+    --chart-2: 246 157 186;
+    --chart-3: 112 112 112;
+    --chart-4: 255 255 255;
+    --chart-5: 0 0 0;
     --radius: 0.5rem;
   }
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 0 0% 100%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background: 0 0 0;
+    --foreground: 112 112 112;
+    --card: 0 0 0;
+    --card-foreground: 112 112 112;
+    --popover: 0 0 0;
+    --popover-foreground: 112 112 112;
+    --primary: 160 125 241;
+    --primary-foreground: 255 255 255;
+    --secondary: 112 112 112;
+    --secondary-foreground: 255 255 255;
+    --muted: 48 48 48;
+    --muted-foreground: 112 112 112;
+    --accent: 246 157 186;
+    --accent-foreground: 255 255 255;
+    --destructive: 246 157 186;
+    --destructive-foreground: 255 255 255;
+    --border: 48 48 48;
+    --input: 48 48 48;
+    --ring: 160 125 241;
+    --chart-1: 160 125 241;
+    --chart-2: 246 157 186;
+    --chart-3: 112 112 112;
+    --chart-4: 255 255 255;
+    --chart-5: 0 0 0;
   }
 }
 
@@ -198,23 +198,25 @@
 
 /* Modern Card Styles */
 .card-modern {
-  @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all duration-300;
-  background: rgba(255, 255, 255, 0.95);
+  @apply rounded-2xl shadow-sm border p-6 transition-all duration-300;
+  background: linear-gradient(135deg, #f6f6f6 0%, #f0f0f0 100%);
   backdrop-filter: blur(10px);
   border-color: var(--alumna-gray-200);
+  color: var(--alumna-secondary);
 }
 
 .card-modern:hover {
   @apply shadow-xl;
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(17, 24, 39, 0.08);
+  box-shadow: 0 20px 40px rgba(160, 125, 241, 0.15);
 }
 
 /* Enhanced Form Styles */
 .form-input {
   @apply w-full px-4 py-3 border rounded-xl transition-all duration-300 text-sm;
-  background: rgba(255, 255, 255, 0.9);
+  background: #f6f6f6;
   border-color: var(--alumna-gray-300);
+  color: var(--alumna-secondary);
 }
 
 .form-input:focus {
@@ -227,20 +229,21 @@
 /* Header Gradient */
 .form-textarea {
   @apply w-full px-4 py-3 border rounded-lg transition-all duration-200 resize-none;
-  background: rgba(255, 255, 255, 0.9);
+  background: #f6f6f6;
   border-color: var(--figma-neutral-300);
+  color: var(--alumna-secondary);
 }
 
 .form-textarea:focus {
   @apply ring-2 ring-opacity-50;
   ring-color: var(--figma-primary);
   border-color: var(--figma-primary);
-  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+  box-shadow: 0 0 0 3px rgba(160, 125, 241, 0.1);
 }
 
 .form-label {
   @apply block text-sm font-semibold mb-2;
-  color: var(--figma-neutral-700);
+  color: #000;
 }
 
 /* Header Styles */
@@ -250,12 +253,12 @@
 
 /* AI Enhancement Styles */
 .ai-gradient {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: linear-gradient(135deg, rgba(160, 125, 241, 0.1) 0%, rgba(246, 157, 186, 0.1) 100%);
+  border: 1px solid rgba(160, 125, 241, 0.2);
 }
 
 .preview-container {
-  background: linear-gradient(135deg, var(--alumna-gray-50) 0%, white 100%);
+  background: linear-gradient(135deg, #f6f6f6 0%, #f0f0f0 100%);
   border: 2px solid var(--alumna-gray-200);
 }
 
@@ -433,17 +436,18 @@ input:focus, textarea:focus, select:focus {
 .upload-zone {
   @apply border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200;
   border-color: var(--figma-primary-light);
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.02) 0%, rgba(8, 145, 178, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(160, 125, 241, 0.05) 0%, rgba(246, 157, 186, 0.05) 100%);
+  color: var(--alumna-secondary);
 }
 
 .upload-zone:hover {
   border-color: var(--figma-primary);
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(8, 145, 178, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(160, 125, 241, 0.1) 0%, rgba(246, 157, 186, 0.1) 100%);
 }
 
 .upload-zone.dragover {
   border-color: var(--figma-primary);
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(160, 125, 241, 0.15) 0%, rgba(246, 157, 186, 0.15) 100%);
   transform: scale(1.02);
 }
 
@@ -483,8 +487,10 @@ input:focus, textarea:focus, select:focus {
 
 /* Suggestion Cards */
 .suggestion-card {
-  @apply bg-white rounded-lg border p-4 transition-all duration-200 hover:shadow-md;
+  @apply rounded-lg border p-4 transition-all duration-200 hover:shadow-md;
+  background: linear-gradient(135deg, #f6f6f6 0%, #f0f0f0 100%);
   border-color: var(--figma-neutral-200);
+  color: var(--alumna-secondary);
 }
 
 .suggestion-card:hover {
