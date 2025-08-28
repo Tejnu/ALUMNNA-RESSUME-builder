@@ -1,0 +1,89 @@
+[16:39:39.008] Running build in Washington, D.C., USA (East) – iad1
+[16:39:39.008] Build machine configuration: 2 cores, 8 GB
+[16:39:39.038] Cloning github.com/Tejnu/rsume (Branch: main, Commit: 5cfa3d9)
+[16:39:39.178] Previous build caches not available
+[16:39:39.357] Cloning completed: 319.000ms
+[16:39:41.293] Running "vercel build"
+[16:39:41.848] Vercel CLI 46.0.2
+[16:39:42.236] Installing dependencies...
+[16:39:45.134] npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+[16:39:45.480] npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+[16:39:45.930] npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+[16:39:46.301] npm warn deprecated glob@7.1.7: Glob versions prior to v9 are no longer supported
+[16:39:46.566] npm warn deprecated gauge@3.0.2: This package is no longer supported.
+[16:39:46.859] npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+[16:39:47.599] npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+[16:39:47.627] npm warn deprecated @humanwhocodes/config-array@0.11.14: Use @eslint/config-array instead
+[16:39:50.387] npm warn deprecated eslint@8.49.0: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+[16:40:02.627] 
+[16:40:02.628] added 578 packages in 20s
+[16:40:02.628] 
+[16:40:02.628] 149 packages are looking for funding
+[16:40:02.629]   run `npm fund` for details
+[16:40:02.695] Detected Next.js version: 13.5.1
+[16:40:02.700] Running "npm run build"
+[16:40:03.120] 
+[16:40:03.120] > nextjs@0.1.0 build
+[16:40:03.121] > next build
+[16:40:03.121] 
+[16:40:03.567] Attention: Next.js now collects completely anonymous telemetry regarding usage.
+[16:40:03.568] This information is used to shape Next.js' roadmap and prioritize features.
+[16:40:03.568] You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+[16:40:03.568] https://nextjs.org/telemetry
+[16:40:03.568] 
+[16:40:03.641]    Creating an optimized production build...
+[16:41:21.025] <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (101kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+[16:41:21.026] <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (101kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+[16:41:21.026] <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (101kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+[16:41:21.030] <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (101kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+[16:41:21.031] <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (108kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+[16:41:21.031] <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (108kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+[16:41:21.031] <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (108kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+[16:41:21.031] <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (108kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+[16:41:22.014] Failed to compile.
+[16:41:22.014] 
+[16:41:22.015] ./components/templates/CreativeTemplate.tsx
+[16:41:22.015] ReactServerComponentsError:
+[16:41:22.018] 
+[16:41:22.018] The "use client" directive must be placed before other expressions. Move it to the top of the file to resolve this issue.
+[16:41:22.018] 
+[16:41:22.018]      ,-[[36;1;4m/vercel/path0/components/templates/CreativeTemplate.tsx[0m:250:1]
+[16:41:22.018]  [2m250[0m |     </div>
+[16:41:22.018]  [2m251[0m |   );
+[16:41:22.018]  [2m252[0m | }
+[16:41:22.018]  [2m253[0m | 'use client';
+[16:41:22.018]      : [31;1m^^^^^^^^^^^^^[0m
+[16:41:22.018]  [2m254[0m | 
+[16:41:22.018]  [2m255[0m | import { ResumeData } from '@/types/resume';
+[16:41:22.018]  [2m256[0m | import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react';
+[16:41:22.018]      `----
+[16:41:22.018] 
+[16:41:22.018] Import path:
+[16:41:22.018]   ./components/templates/CreativeTemplate.tsx
+[16:41:22.018]   ./components/ResumePreview.tsx
+[16:41:22.018]   ./app/page.tsx
+[16:41:22.018] 
+[16:41:22.018] ./components/templates/ExecutiveTemplate.tsx
+[16:41:22.018] ReactServerComponentsError:
+[16:41:22.018] 
+[16:41:22.018] The "use client" directive must be placed before other expressions. Move it to the top of the file to resolve this issue.
+[16:41:22.018] 
+[16:41:22.019]      ,-[[36;1;4m/vercel/path0/components/templates/ExecutiveTemplate.tsx[0m:258:1]
+[16:41:22.019]  [2m258[0m |     </div>
+[16:41:22.019]  [2m259[0m |   );
+[16:41:22.019]  [2m260[0m | }
+[16:41:22.019]  [2m261[0m | 'use client';
+[16:41:22.019]      : [31;1m^^^^^^^^^^^^^[0m
+[16:41:22.019]  [2m262[0m | 
+[16:41:22.022]  [2m263[0m | import { ResumeData } from '@/types/resume';
+[16:41:22.022]  [2m264[0m | import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react';
+[16:41:22.022]      `----
+[16:41:22.022] 
+[16:41:22.022] Import path:
+[16:41:22.022]   ./components/templates/ExecutiveTemplate.tsx
+[16:41:22.022]   ./components/ResumePreview.tsx
+[16:41:22.023]   ./app/page.tsx
+[16:41:22.023] 
+[16:41:22.023] 
+[16:41:22.023] > Build failed because of webpack errors
+[16:41:22.091] Error: Command "npm run build" exited with 1

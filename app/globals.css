@@ -1,0 +1,606 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 0 0% 0%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 0 0% 100%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: #fafafa;
+  }
+}
+
+/* Alumna Brand Colors from Figma */
+:root {
+  /* Figma-derived variables (mapped) */
+  --figma-primary: #000000;
+  --figma-primary-light: #333333;
+  --figma-primary-dark: #000000;
+  --figma-secondary: #666666;
+  --figma-success: #000000;
+  --figma-success-dark: #000000;
+  --figma-warning: #666666;
+  --figma-warning-dark: #333333;
+  --figma-error: #000000;
+  --figma-accent: #000000;
+  --figma-accent-dark: #000000;
+  --figma-neutral-100: #FFFFFF;
+  --figma-neutral-200: #F5F5F5;
+  --figma-neutral-300: #E5E5E5;
+  --figma-neutral-600: #000000;
+  --figma-neutral-700: #000000;
+  /* Primary Brand Colors */
+  --alumna-primary: #000000;
+  --alumna-primary-light: #333333;
+  --alumna-primary-dark: #000000;
+  
+  /* Secondary Colors */
+  --alumna-secondary: #666666;
+  --alumna-secondary-light: #999999;
+  --alumna-secondary-dark: #333333;
+  
+  /* Accent Colors */
+  --alumna-accent: #000000;
+  --alumna-accent-light: #333333;
+  --alumna-accent-dark: #000000;
+  
+  /* Status Colors */
+  --alumna-success: #000000;
+  --alumna-warning: #666666;
+  --alumna-error: #000000;
+  --alumna-info: #000000;
+  
+  /* Neutral Grays */
+  --alumna-gray-50: #fafbfc;
+  --alumna-gray-100: #f4f6f8;
+  --alumna-gray-200: #e5e7eb;
+  --alumna-gray-300: #d1d5db;
+  --alumna-gray-400: #9ca3af;
+  --alumna-gray-500: #6b7280;
+  --alumna-gray-600: #4b5563;
+  --alumna-gray-700: #374151;
+  --alumna-gray-800: #1f2937;
+  --alumna-gray-900: #111827;
+}
+
+/* Alumna Component Styles */
+.btn-primary {
+  @apply text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl;
+  background: #000000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  background: #333333;
+}
+
+.btn-secondary {
+  @apply text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl;
+  background: #666666;
+  box-shadow: 0 4px 20px rgba(102, 102, 102, 0.25);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(102, 102, 102, 0.4);
+  background: #333333;
+}
+
+.btn-success {
+  @apply text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-lg;
+  background: linear-gradient(135deg, var(--figma-success) 0%, var(--figma-success-dark) 100%);
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.25);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(5, 150, 105, 0.35);
+}
+
+.btn-accent {
+  @apply text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-lg;
+  background: linear-gradient(135deg, var(--figma-accent) 0%, var(--figma-accent-dark) 100%);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
+}
+
+.btn-accent:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.35);
+}
+
+.btn-outline {
+  @apply border-2 font-semibold px-6 py-3 rounded-lg transition-all duration-200;
+  border-color: var(--figma-primary);
+  color: var(--figma-primary);
+}
+
+.btn-outline:hover {
+  background: var(--figma-primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Modern Card Styles */
+.card-modern {
+  @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all duration-300;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-color: var(--alumna-gray-200);
+}
+
+.card-modern:hover {
+  @apply shadow-xl;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(17, 24, 39, 0.08);
+}
+
+/* Enhanced Form Styles */
+.form-input {
+  @apply w-full px-4 py-3 border rounded-xl transition-all duration-300 text-sm;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--alumna-gray-300);
+}
+
+.form-input:focus {
+  @apply ring-2 ring-opacity-30;
+  ring-color: var(--alumna-primary);
+  border-color: var(--alumna-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Header Gradient */
+.form-textarea {
+  @apply w-full px-4 py-3 border rounded-lg transition-all duration-200 resize-none;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--figma-neutral-300);
+}
+
+.form-textarea:focus {
+  @apply ring-2 ring-opacity-50;
+  ring-color: var(--figma-primary);
+  border-color: var(--figma-primary);
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.form-label {
+  @apply block text-sm font-semibold mb-2;
+  color: var(--figma-neutral-700);
+}
+
+/* Header Styles */
+.header-gradient {
+  background: linear-gradient(90deg, var(--figma-primary) 0%, var(--figma-secondary) 100%);
+}
+
+/* AI Enhancement Styles */
+.ai-gradient {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.preview-container {
+  background: linear-gradient(135deg, var(--alumna-gray-50) 0%, white 100%);
+  border: 2px solid var(--alumna-gray-200);
+}
+
+/* Status Indicators */
+.status-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--alumna-secondary-dark);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--alumna-accent-dark);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.status-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Icon Colors */
+.icon-primary { color: var(--alumna-primary); }
+.icon-secondary { color: var(--alumna-secondary); }
+.icon-accent { color: var(--alumna-accent); }
+.icon-success { color: var(--alumna-success); }
+.icon-warning { color: var(--alumna-warning); }
+.icon-error { color: var(--alumna-error); }
+
+/* Loading Animation */
+.loading-spinner {
+  @apply animate-spin rounded-full border-2;
+  border-color: var(--alumna-gray-300);
+  border-top-color: var(--alumna-primary);
+}
+
+/* Smooth Animations */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Skill Level Badges */
+.skill-expert {
+  @apply px-3 py-1 rounded-full text-xs font-medium;
+  background-color: rgba(124, 58, 237, 0.1);
+  color: var(--figma-accent-dark);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.skill-advanced {
+  @apply px-3 py-1 rounded-full text-xs font-medium;
+  background-color: rgba(5, 150, 105, 0.1);
+  color: var(--figma-success-dark);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+.skill-intermediate {
+  @apply px-3 py-1 rounded-full text-xs font-medium;
+  background-color: rgba(30, 58, 138, 0.1);
+  color: var(--figma-primary-dark);
+  border: 1px solid rgba(30, 58, 138, 0.2);
+}
+
+.skill-beginner {
+  @apply px-3 py-1 rounded-full text-xs font-medium;
+  background-color: rgba(234, 88, 12, 0.1);
+  color: var(--figma-warning-dark);
+  border: 1px solid rgba(234, 88, 12, 0.2);
+}
+
+/* Loading States */
+.loading-spinner {
+  @apply animate-spin rounded-full border-2;
+  border-color: var(--figma-neutral-300);
+  border-top-color: var(--figma-primary);
+}
+
+.loading-pulse {
+  @apply animate-pulse rounded;
+  background-color: var(--figma-neutral-200);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--figma-neutral-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--figma-primary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--figma-primary-dark);
+}
+
+/* Focus Styles */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  @apply ring-2 ring-opacity-50;
+  ring-color: var(--figma-primary);
+  border-color: var(--figma-primary);
+}
+
+/* Upload Zone */
+.upload-zone {
+  @apply border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200;
+  border-color: var(--figma-primary-light);
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.02) 0%, rgba(8, 145, 178, 0.02) 100%);
+}
+
+.upload-zone:hover {
+  border-color: var(--figma-primary);
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(8, 145, 178, 0.05) 100%);
+}
+
+.upload-zone.dragover {
+  border-color: var(--figma-primary);
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%);
+  transform: scale(1.02);
+}
+
+/* Score Display */
+.score-display {
+  @apply text-4xl font-bold;
+}
+
+.score-excellent {
+  color: var(--figma-success);
+}
+
+.score-good {
+  color: var(--figma-primary);
+}
+
+.score-fair {
+  color: var(--figma-warning);
+}
+
+.score-poor {
+  color: var(--figma-error);
+}
+
+/* Match Indicators */
+.match-high {
+  background-color: var(--figma-success);
+}
+
+.match-medium {
+  background-color: var(--figma-warning);
+}
+
+.match-low {
+  background-color: var(--figma-error);
+}
+
+/* Suggestion Cards */
+.suggestion-card {
+  @apply bg-white rounded-lg border p-4 transition-all duration-200 hover:shadow-md;
+  border-color: var(--figma-neutral-200);
+}
+
+.suggestion-card:hover {
+  transform: translateY(-1px);
+  border-color: var(--figma-primary-light);
+}
+
+/* Icon Styles */
+.icon-primary {
+  color: var(--figma-primary);
+}
+
+.icon-secondary {
+  color: var(--figma-secondary);
+}
+
+.icon-success {
+  color: var(--figma-success);
+}
+
+.icon-warning {
+  color: var(--figma-warning);
+}
+
+.icon-error {
+  color: var(--figma-error);
+}
+
+.icon-accent {
+  color: var(--figma-accent);
+}
+
+/* Status Indicators */
+.status-success {
+  background-color: rgba(5, 150, 105, 0.1);
+  color: var(--figma-success-dark);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+.status-warning {
+  background-color: rgba(234, 88, 12, 0.1);
+  color: var(--figma-warning-dark);
+  border: 1px solid rgba(234, 88, 12, 0.2);
+}
+
+.status-error {
+  background-color: rgba(220, 38, 38, 0.1);
+  color: var(--figma-error-dark);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.status-info {
+  background-color: rgba(30, 58, 138, 0.1);
+  color: var(--figma-primary-dark);
+  border: 1px solid rgba(30, 58, 138, 0.2);
+}
+
+/* Tab Styles */
+.tab-trigger {
+  @apply px-4 py-2 text-sm font-medium transition-all duration-200 border-b-2 border-transparent;
+  color: var(--figma-neutral-600);
+}
+
+.tab-trigger:hover {
+  color: var(--figma-primary);
+  border-color: rgba(30, 58, 138, 0.2);
+}
+
+.tab-trigger[data-state="active"] {
+  color: var(--figma-primary);
+  border-color: var(--figma-primary);
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body * {
+    visibility: hidden;
+  }
+  
+  .resume-preview, .resume-preview * {
+    visibility: visible;
+  }
+  
+  .resume-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  @page {
+    margin: 0.5in;
+    size: letter;
+  }
+  
+  .resume-preview {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mobile-stack {
+    @apply flex-col space-y-4;
+  }
+  
+  .mobile-full {
+    @apply w-full;
+  }
+  
+  .btn-primary, .btn-secondary, .btn-success, .btn-accent {
+    @apply px-4 py-2 text-sm;
+  }
+}

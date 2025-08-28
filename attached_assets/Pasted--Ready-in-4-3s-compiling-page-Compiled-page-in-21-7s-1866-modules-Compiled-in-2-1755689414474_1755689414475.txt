@@ -1,0 +1,89 @@
+✓ Ready in 4.3s
+ ○ compiling /page ...
+ ✓ Compiled /page in 21.7s (1866 modules)
+ ✓ Compiled in 2.3s (868 modules)
+ ○ compiling /api/parse-pdf/route ...
+ ✓ Compiled /api/parse-pdf/route in 20s (1033 modules)
+ ✓ Compiled /not-found in 2.3s (1892 modules)
+TypeError: a is not a function
+    at /home/runner/workspace/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:1:639079
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async ro (/home/runner/workspace/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:1:638687)
+    at async K (/home/runner/workspace/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:1:665024)
+    at async doRender (/home/runner/workspace/node_modules/next/dist/server/base-server.js:1288:26)
+    at async cacheEntry.responseCache.get.incrementalCache.incrementalCache (/home/runner/workspace/node_modules/next/dist/server/base-server.js:1437:28)
+    at async /home/runner/workspace/node_modules/next/dist/server/response-cache/index.js:102:36
+ ✓ Compiled /_error in 2.1s (2054 modules)
+TypeError: a is not a function
+    at /home/runner/workspace/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:1:639079
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async ro (/home/runner/workspace/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:1:638687)
+    at async K (/home/runner/workspace/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:1:665024)
+    at async doRender (/home/runner/workspace/node_modules/next/dist/server/base-server.js:1288:26)
+    at async cacheEntry.responseCache.get.incrementalCache.incrementalCache (/home/runner/workspace/node_modules/next/dist/server/base-server.js:1437:28)
+    at async /home/runner/workspace/node_modules/next/dist/server/response-cache/index.js:102:36
+^CTypeError [ERR_INVALID_ARG_TYPE]: The "code" argument must be of type number. Received type string ('SIGINT')
+    at process.set [as exitCode] (node:internal/bootstrap/node:123:9)
+    at process.exit (node:internal/process/per_thread:179:24)
+    at process.cleanup (/home/runner/workspace/node_modules/next/dist/server/lib/start-server.js:208:29)
+    at process.emit (node:events:536:35)
+    at Signal.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+TypeError [ERR_INVALID_ARG_TYPE]: The "code" argument must be of type number. Received type string ('SIGINT')
+    at process.set [as exitCode] (node:internal/bootstrap/node:123:9)
+    at process.exit (node:internal/process/per_thread:179:24)
+    at process.cleanup (/home/runner/workspace/node_modules/next/dist/server/lib/start-server.js:208:29)
+    at process.emit (node:events:536:35)
+    at Signal.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+ X uncaughtException: TypeError [ERR_INVALID_ARG_TYPE]: The "code" argument must be of type number. Received type string ('SIGINT')
+    at process.set [as exitCode] (node:internal/bootstrap/node:123:9)
+    at process.exit (node:internal/process/per_thread:179:24)
+    at process.cleanup (/home/runner/workspace/node_modules/next/dist/server/lib/start-server.js:208:29)
+    at process.emit (node:events:536:35)
+    at Signal.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+ X uncaughtException: TypeError [ERR_INVALID_ARG_TYPE]: The "code" argument must be of type number. Received type string ('SIGINT')
+    at process.set [as exitCode] (node:internal/bootstrap/node:123:9)
+    at process.exit (node:internal/process/per_thread:179:24)
+    at process.cleanup (/home/runner/workspace/node_modules/next/dist/server/lib/start-server.js:208:29)
+    at process.emit (node:events:536:35)
+    at Signal.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+TypeError [ERR_INVALID_ARG_TYPE]: The "code" argument must be of type number. Received type string ('SIGINT')
+    at process.set [as exitCode] (node:internal/bootstrap/node:123:9)
+    at process.exit (node:internal/process/per_thread:179:24)
+    at process.cleanup (/home/runner/workspace/node_modules/next/dist/server/lib/start-server.js:208:29)
+    at process.emit (node:events:536:35)
+    at Signal.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+TypeError [ERR_INVALID_ARG_TYPE]: The "code" argument must be of type number. Received type string ('SIGINT')
+    at process.set [as exitCode] (node:internal/bootstrap/node:123:9)
+    at process.exit (node:internal/process/per_thread:179:24)
+    at process.cleanup (/home/runner/workspace/node_modules/next/dist/server/lib/start-server.js:208:29)
+    at process.emit (node:events:536:35)
+    at Signal.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+ X uncaughtException: TypeError [ERR_INVALID_ARG_TYPE]: The "code" argument must be of type number. Received type string ('SIGINT')
+    at process.set [as exitCode] (node:internal/bootstrap/node:123:9)
+    at process.exit (node:internal/process/per_thread:179:24)
+    at process.cleanup (/home/runner/workspace/node_modules/next/dist/server/lib/start-server.js:208:29)
+    at process.emit (node:events:536:35)
+    at Signal.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+ X uncaughtException: TypeError [ERR_INVALID_ARG_TYPE]: The "code" argument must be of type number. Received type string ('SIGINT')
+    at process.set [as exitCode] (node:internal/bootstrap/node:123:9)
+    at process.exit (node:internal/process/per_thread:179:24)
+    at process.cleanup (/home/runner/workspace/node_modules/next/dist/server/lib/start-server.js:208:29)
+    at process.emit (node:events:536:35)
+    at Signal.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
