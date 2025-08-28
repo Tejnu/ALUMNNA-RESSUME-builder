@@ -385,7 +385,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen page-background">
       <Header 
         onFileUpload={handleFileUpload}
         onAIEnhance={handleAIEnhance}
@@ -422,7 +422,7 @@ export default function Home() {
               </TabsList>
 
               <TabsContent value="form">
-                <Card className="bg-white shadow-sm border border-gray-200">
+                <Card className="card-modern">
                   <ResumeForm
                     resumeData={resumeData}
                     onUpdate={updateResumeData}
