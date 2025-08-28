@@ -18,57 +18,57 @@
 
 @layer base {
   :root {
-    --background: 246 246 246;
-    --foreground: 112 112 112;
-    --card: 246 246 246;
-    --card-foreground: 112 112 112;
-    --popover: 246 246 246;
-    --popover-foreground: 112 112 112;
-    --primary: 160 125 241;
-    --primary-foreground: 255 255 255;
-    --secondary: 112 112 112;
-    --secondary-foreground: 255 255 255;
-    --muted: 240 240 240;
-    --muted-foreground: 112 112 112;
-    --accent: 246 157 186;
-    --accent-foreground: 255 255 255;
-    --destructive: 246 157 186;
-    --destructive-foreground: 255 255 255;
-    --border: 224 224 224;
-    --input: 240 240 240;
-    --ring: 160 125 241;
-    --chart-1: 160 125 241;
-    --chart-2: 246 157 186;
-    --chart-3: 112 112 112;
-    --chart-4: 255 255 255;
-    --chart-5: 0 0 0;
+    --background: 0 0% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 0 0% 0%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
   .dark {
-    --background: 0 0 0;
-    --foreground: 112 112 112;
-    --card: 0 0 0;
-    --card-foreground: 112 112 112;
-    --popover: 0 0 0;
-    --popover-foreground: 112 112 112;
-    --primary: 160 125 241;
-    --primary-foreground: 255 255 255;
-    --secondary: 112 112 112;
-    --secondary-foreground: 255 255 255;
-    --muted: 48 48 48;
-    --muted-foreground: 112 112 112;
-    --accent: 246 157 186;
-    --accent-foreground: 255 255 255;
-    --destructive: 246 157 186;
-    --destructive-foreground: 255 255 255;
-    --border: 48 48 48;
-    --input: 48 48 48;
-    --ring: 160 125 241;
-    --chart-1: 160 125 241;
-    --chart-2: 246 157 186;
-    --chart-3: 112 112 112;
-    --chart-4: 255 255 255;
-    --chart-5: 0 0 0;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 0 0% 100%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -78,88 +78,86 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: #f6f6f6;
-    color: #707070;
+    background: #fafafa;
   }
 }
 
 /* Alumna Brand Colors from Figma */
 :root {
   /* Figma-derived variables (mapped) */
-  --figma-primary: #a07df1;
-  --figma-primary-light: #b395f4;
-  --figma-primary-dark: #8d65ee;
-  --figma-secondary: #707070;
-  --figma-success: #a07df1;
-  --figma-success-dark: #8d65ee;
-  --figma-warning: #f69dba;
-  --figma-warning-dark: #f488a8;
-  --figma-error: #f69dba;
-  --figma-accent: #f69dba;
-  --figma-accent-dark: #f488a8;
-  --figma-neutral-100: #f6f6f6;
-  --figma-neutral-200: #f0f0f0;
-  --figma-neutral-300: #e0e0e0;
-  --figma-neutral-600: #707070;
+  --figma-primary: #000000;
+  --figma-primary-light: #333333;
+  --figma-primary-dark: #000000;
+  --figma-secondary: #666666;
+  --figma-success: #000000;
+  --figma-success-dark: #000000;
+  --figma-warning: #666666;
+  --figma-warning-dark: #333333;
+  --figma-error: #000000;
+  --figma-accent: #000000;
+  --figma-accent-dark: #000000;
+  --figma-neutral-100: #FFFFFF;
+  --figma-neutral-200: #F5F5F5;
+  --figma-neutral-300: #E5E5E5;
+  --figma-neutral-600: #000000;
   --figma-neutral-700: #000000;
   /* Primary Brand Colors */
-  --alumna-primary: #a07df1;
-  --alumna-primary-light: #b395f4;
-  --alumna-primary-dark: #8d65ee;
+  --alumna-primary: #000000;
+  --alumna-primary-light: #333333;
+  --alumna-primary-dark: #000000;
   
   /* Secondary Colors */
-  --alumna-secondary: #707070;
-  --alumna-secondary-light: #909090;
-  --alumna-secondary-dark: #505050;
+  --alumna-secondary: #666666;
+  --alumna-secondary-light: #999999;
+  --alumna-secondary-dark: #333333;
   
   /* Accent Colors */
-  --alumna-accent: #f69dba;
-  --alumna-accent-light: #f8b5ce;
-  --alumna-accent-dark: #f488a8;
+  --alumna-accent: #000000;
+  --alumna-accent-light: #333333;
+  --alumna-accent-dark: #000000;
   
   /* Status Colors */
-  --alumna-success: #a07df1;
-  --alumna-warning: #f69dba;
-  --alumna-error: #f69dba;
-  --alumna-info: #a07df1;
+  --alumna-success: #000000;
+  --alumna-warning: #666666;
+  --alumna-error: #000000;
+  --alumna-info: #000000;
   
   /* Neutral Grays */
-  --alumna-gray-50: #f6f6f6;
-  --alumna-gray-100: #f0f0f0;
-  --alumna-gray-200: #e0e0e0;
-  --alumna-gray-300: #d0d0d0;
-  --alumna-gray-400: #b0b0b0;
-  --alumna-gray-500: #909090;
-  --alumna-gray-600: #707070;
-  --alumna-gray-700: #505050;
-  --alumna-gray-800: #303030;
-  --alumna-gray-900: #000000;
+  --alumna-gray-50: #fafbfc;
+  --alumna-gray-100: #f4f6f8;
+  --alumna-gray-200: #e5e7eb;
+  --alumna-gray-300: #d1d5db;
+  --alumna-gray-400: #9ca3af;
+  --alumna-gray-500: #6b7280;
+  --alumna-gray-600: #4b5563;
+  --alumna-gray-700: #374151;
+  --alumna-gray-800: #1f2937;
+  --alumna-gray-900: #111827;
 }
 
 /* Alumna Component Styles */
 .btn-primary {
   @apply text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl;
-  background: linear-gradient(90deg, #a07df1, #f69dba);
-  box-shadow: 0 4px 20px rgba(160, 125, 241, 0.25);
+  background: #000000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(160, 125, 241, 0.4);
-  background: linear-gradient(90deg, #b395f4, #f8b5ce);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  background: #333333;
 }
 
 .btn-secondary {
-  @apply font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl;
-  background: #f6f6f6;
-  color: #707070;
-  box-shadow: 0 4px 20px rgba(112, 112, 112, 0.15);
+  @apply text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl;
+  background: #666666;
+  box-shadow: 0 4px 20px rgba(102, 102, 102, 0.25);
 }
 
 .btn-secondary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(112, 112, 112, 0.25);
-  background: #f0f0f0;
+  box-shadow: 0 8px 30px rgba(102, 102, 102, 0.4);
+  background: #333333;
 }
 
 .btn-success {
@@ -198,25 +196,23 @@
 
 /* Modern Card Styles */
 .card-modern {
-  @apply rounded-2xl shadow-sm border p-6 transition-all duration-300;
-  background: linear-gradient(135deg, #f6f6f6 0%, #f0f0f0 100%);
+  @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all duration-300;
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-color: var(--alumna-gray-200);
-  color: var(--alumna-secondary);
 }
 
 .card-modern:hover {
   @apply shadow-xl;
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(160, 125, 241, 0.15);
+  box-shadow: 0 20px 40px rgba(17, 24, 39, 0.08);
 }
 
 /* Enhanced Form Styles */
 .form-input {
   @apply w-full px-4 py-3 border rounded-xl transition-all duration-300 text-sm;
-  background: #f6f6f6;
+  background: rgba(255, 255, 255, 0.9);
   border-color: var(--alumna-gray-300);
-  color: var(--alumna-secondary);
 }
 
 .form-input:focus {
@@ -229,36 +225,35 @@
 /* Header Gradient */
 .form-textarea {
   @apply w-full px-4 py-3 border rounded-lg transition-all duration-200 resize-none;
-  background: #f6f6f6;
+  background: rgba(255, 255, 255, 0.9);
   border-color: var(--figma-neutral-300);
-  color: var(--alumna-secondary);
 }
 
 .form-textarea:focus {
   @apply ring-2 ring-opacity-50;
   ring-color: var(--figma-primary);
   border-color: var(--figma-primary);
-  box-shadow: 0 0 0 3px rgba(160, 125, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
 }
 
 .form-label {
   @apply block text-sm font-semibold mb-2;
-  color: #000;
+  color: var(--figma-neutral-700);
 }
 
 /* Header Styles */
 .header-gradient {
-  background: linear-gradient(90deg, #a07df1, #f69dba);
+  background: linear-gradient(90deg, var(--figma-primary) 0%, var(--figma-secondary) 100%);
 }
 
 /* AI Enhancement Styles */
 .ai-gradient {
-  background: linear-gradient(135deg, rgba(160, 125, 241, 0.1) 0%, rgba(246, 157, 186, 0.1) 100%);
-  border: 1px solid rgba(160, 125, 241, 0.2);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.2);
 }
 
 .preview-container {
-  background: linear-gradient(135deg, #f6f6f6 0%, #f0f0f0 100%);
+  background: linear-gradient(135deg, var(--alumna-gray-50) 0%, white 100%);
   border: 2px solid var(--alumna-gray-200);
 }
 
@@ -436,18 +431,17 @@ input:focus, textarea:focus, select:focus {
 .upload-zone {
   @apply border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200;
   border-color: var(--figma-primary-light);
-  background: linear-gradient(135deg, rgba(160, 125, 241, 0.05) 0%, rgba(246, 157, 186, 0.05) 100%);
-  color: var(--alumna-secondary);
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.02) 0%, rgba(8, 145, 178, 0.02) 100%);
 }
 
 .upload-zone:hover {
   border-color: var(--figma-primary);
-  background: linear-gradient(135deg, rgba(160, 125, 241, 0.1) 0%, rgba(246, 157, 186, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(8, 145, 178, 0.05) 100%);
 }
 
 .upload-zone.dragover {
   border-color: var(--figma-primary);
-  background: linear-gradient(135deg, rgba(160, 125, 241, 0.15) 0%, rgba(246, 157, 186, 0.15) 100%);
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%);
   transform: scale(1.02);
 }
 
@@ -487,10 +481,8 @@ input:focus, textarea:focus, select:focus {
 
 /* Suggestion Cards */
 .suggestion-card {
-  @apply rounded-lg border p-4 transition-all duration-200 hover:shadow-md;
-  background: linear-gradient(135deg, #f6f6f6 0%, #f0f0f0 100%);
+  @apply bg-white rounded-lg border p-4 transition-all duration-200 hover:shadow-md;
   border-color: var(--figma-neutral-200);
-  color: var(--alumna-secondary);
 }
 
 .suggestion-card:hover {

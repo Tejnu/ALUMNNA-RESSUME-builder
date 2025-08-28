@@ -28,4 +28,3 @@ State University | 2014 - 2018
 
 SKILLS
 JavaScript, React, Node.js, Python, SQL, Git, Docker, AWS
-
