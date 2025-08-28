@@ -78,86 +78,88 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: #fafafa;
+    background: #f6f6f6;
+    color: #707070;
   }
 }
 
 /* Alumna Brand Colors from Figma */
 :root {
   /* Figma-derived variables (mapped) */
-  --figma-primary: #000000;
-  --figma-primary-light: #333333;
-  --figma-primary-dark: #000000;
-  --figma-secondary: #666666;
-  --figma-success: #000000;
-  --figma-success-dark: #000000;
-  --figma-warning: #666666;
-  --figma-warning-dark: #333333;
-  --figma-error: #000000;
-  --figma-accent: #000000;
-  --figma-accent-dark: #000000;
-  --figma-neutral-100: #FFFFFF;
-  --figma-neutral-200: #F5F5F5;
-  --figma-neutral-300: #E5E5E5;
-  --figma-neutral-600: #000000;
+  --figma-primary: #a07df1;
+  --figma-primary-light: #b395f4;
+  --figma-primary-dark: #8d65ee;
+  --figma-secondary: #707070;
+  --figma-success: #a07df1;
+  --figma-success-dark: #8d65ee;
+  --figma-warning: #f69dba;
+  --figma-warning-dark: #f488a8;
+  --figma-error: #f69dba;
+  --figma-accent: #f69dba;
+  --figma-accent-dark: #f488a8;
+  --figma-neutral-100: #f6f6f6;
+  --figma-neutral-200: #f0f0f0;
+  --figma-neutral-300: #e0e0e0;
+  --figma-neutral-600: #707070;
   --figma-neutral-700: #000000;
   /* Primary Brand Colors */
-  --alumna-primary: #000000;
-  --alumna-primary-light: #333333;
-  --alumna-primary-dark: #000000;
+  --alumna-primary: #a07df1;
+  --alumna-primary-light: #b395f4;
+  --alumna-primary-dark: #8d65ee;
   
   /* Secondary Colors */
-  --alumna-secondary: #666666;
-  --alumna-secondary-light: #999999;
-  --alumna-secondary-dark: #333333;
+  --alumna-secondary: #707070;
+  --alumna-secondary-light: #909090;
+  --alumna-secondary-dark: #505050;
   
   /* Accent Colors */
-  --alumna-accent: #000000;
-  --alumna-accent-light: #333333;
-  --alumna-accent-dark: #000000;
+  --alumna-accent: #f69dba;
+  --alumna-accent-light: #f8b5ce;
+  --alumna-accent-dark: #f488a8;
   
   /* Status Colors */
-  --alumna-success: #000000;
-  --alumna-warning: #666666;
-  --alumna-error: #000000;
-  --alumna-info: #000000;
+  --alumna-success: #a07df1;
+  --alumna-warning: #f69dba;
+  --alumna-error: #f69dba;
+  --alumna-info: #a07df1;
   
   /* Neutral Grays */
-  --alumna-gray-50: #fafbfc;
-  --alumna-gray-100: #f4f6f8;
-  --alumna-gray-200: #e5e7eb;
-  --alumna-gray-300: #d1d5db;
-  --alumna-gray-400: #9ca3af;
-  --alumna-gray-500: #6b7280;
-  --alumna-gray-600: #4b5563;
-  --alumna-gray-700: #374151;
-  --alumna-gray-800: #1f2937;
-  --alumna-gray-900: #111827;
+  --alumna-gray-50: #f6f6f6;
+  --alumna-gray-100: #f0f0f0;
+  --alumna-gray-200: #e0e0e0;
+  --alumna-gray-300: #d0d0d0;
+  --alumna-gray-400: #b0b0b0;
+  --alumna-gray-500: #909090;
+  --alumna-gray-600: #707070;
+  --alumna-gray-700: #505050;
+  --alumna-gray-800: #303030;
+  --alumna-gray-900: #000000;
 }
 
 /* Alumna Component Styles */
 .btn-primary {
   @apply text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl;
-  background: #000000;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(90deg, #a07df1, #f69dba);
+  box-shadow: 0 4px 20px rgba(160, 125, 241, 0.25);
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-  background: #333333;
+  box-shadow: 0 8px 30px rgba(160, 125, 241, 0.4);
+  background: linear-gradient(90deg, #b395f4, #f8b5ce);
 }
 
 .btn-secondary {
-  @apply text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl;
-  background: #666666;
-  box-shadow: 0 4px 20px rgba(102, 102, 102, 0.25);
+  @apply font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl;
+  background: #f6f6f6;
+  color: #707070;
+  box-shadow: 0 4px 20px rgba(112, 112, 112, 0.15);
 }
 
 .btn-secondary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(102, 102, 102, 0.4);
-  background: #333333;
+  box-shadow: 0 8px 30px rgba(112, 112, 112, 0.25);
+  background: #f0f0f0;
 }
 
 .btn-success {
@@ -243,7 +245,7 @@
 
 /* Header Styles */
 .header-gradient {
-  background: linear-gradient(90deg, var(--figma-primary) 0%, var(--figma-secondary) 100%);
+  background: linear-gradient(90deg, #a07df1, #f69dba);
 }
 
 /* AI Enhancement Styles */
