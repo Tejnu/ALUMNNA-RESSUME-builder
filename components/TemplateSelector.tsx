@@ -78,8 +78,8 @@ export function TemplateSelector({ selectedTemplate, onTemplateChange }: Templat
   return (
     <div className="mb-8">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold gradient-text mb-2">Choose Your Template</h2>
-        <p className="text-secondary-text">Select a professional template that matches your industry and personal style</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose Your Template</h2>
+        <p className="text-gray-600">Select a professional template that matches your industry and personal style</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
@@ -90,37 +90,37 @@ export function TemplateSelector({ selectedTemplate, onTemplateChange }: Templat
           return (
             <Card
               key={template.id}
-              className={`relative p-6 cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${
+              className={`relative p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
                 isSelected
-                  ? 'ring-2 ring-primary shadow-2xl card-gradient'
-                  : 'card-modern hover:border-primary-color'
+                  ? 'ring-2 ring-black shadow-xl bg-gray-50'
+                  : 'border-gray-200 hover:border-black bg-white'
               }`}
               onClick={() => onTemplateChange(template.id)}
             >
               {/* Selection Indicator */}
               {isSelected && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-lg" style={{background: 'var(--primary-gradient)'}}>
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-black rounded-full flex items-center justify-center shadow-lg">
                   <CheckCircle className="h-4 w-4 text-white" />
                 </div>
               )}
               
               {/* New Badge */}
               {template.isNew && !isSelected && (
-                <div className="absolute -top-2 -left-2 px-2 py-1 text-white text-xs font-bold rounded-full shadow-lg" style={{background: 'var(--primary-gradient)'}}>
+                <div className="absolute -top-2 -left-2 px-2 py-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-bold rounded-full shadow-lg">
                   NEW
                 </div>
               )}
               
               {/* Template Icon */}
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-lg" style={{background: 'var(--primary-gradient)'}}>
+              <div className="w-12 h-12 rounded-xl bg-black flex items-center justify-center mb-4 shadow-lg">
                 <IconComponent className="h-6 w-6 text-white" />
               </div>
               
               {/* Template Info */}
               <div className="space-y-3">
                 <div>
-                  <h3 className={`font-semibold text-lg mb-1 ${isSelected ? 'text-white' : 'text-gray-900'}`}>{template.name}</h3>
-                  <p className={`text-sm leading-relaxed ${isSelected ? 'text-white opacity-90' : 'text-secondary-text'}`}>{template.description}</p>
+                  <h3 className="font-semibold text-lg text-gray-900 mb-1">{template.name}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{template.description}</p>
                 </div>
                 
                 {/* Features */}
@@ -131,8 +131,8 @@ export function TemplateSelector({ selectedTemplate, onTemplateChange }: Templat
                       variant="secondary" 
                       className={`text-xs ${
                         isSelected 
-                          ? 'bg-white bg-opacity-20 text-white border-white border-opacity-30' 
-                          : 'bg-gray-100 text-secondary-text'
+                          ? 'bg-gray-100 text-gray-700' 
+                          : 'bg-gray-100 text-gray-600'
                       }`}
                     >
                       {feature}

@@ -85,40 +85,40 @@ export function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
   const organizedResumeData = validateAndOrganizeData(resumeData);
 
   return (
-    <Card className="card-modern">
+    <Card className="bg-white border border-gray-200 shadow-sm">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold gradient-text">Edit Resume</CardTitle>
+        <CardTitle className="text-xl font-semibold text-gray-900">Edit Resume</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-7 gap-1 p-1 bg-gradient-to-r from-purple-50 to-pink-50 border border-border-color rounded-xl">
-            <TabsTrigger value="personal" className="tab-trigger flex items-center justify-center space-x-1 min-h-[3rem]">
+          <TabsList className="grid w-full grid-cols-7 text-xs">
+            <TabsTrigger value="personal" className="flex items-center space-x-2">
               <User className="h-4 w-4" />
-              <span className="hidden md:inline text-sm">Personal</span>
+              <span className="hidden sm:inline">Personal</span>
             </TabsTrigger>
-            <TabsTrigger value="work" className="tab-trigger flex items-center justify-center space-x-1 min-h-[3rem]">
+            <TabsTrigger value="work" className="flex items-center space-x-2">
               <Briefcase className="h-4 w-4" />
-              <span className="hidden md:inline text-sm">Experience</span>
+              <span className="hidden sm:inline">Experience</span>
             </TabsTrigger>
-            <TabsTrigger value="education" className="tab-trigger flex items-center justify-center space-x-1 min-h-[3rem]">
+            <TabsTrigger value="education" className="flex items-center space-x-2">
               <GraduationCap className="h-4 w-4" />
-              <span className="hidden md:inline text-sm">Education</span>
+              <span className="hidden sm:inline">Education</span>
             </TabsTrigger>
-            <TabsTrigger value="skills" className="tab-trigger flex items-center justify-center space-x-1 min-h-[3rem]">
+            <TabsTrigger value="skills" className="flex items-center space-x-2">
               <Code className="h-4 w-4" />
-              <span className="hidden md:inline text-sm">Skills</span>
+              <span className="hidden sm:inline">Skills</span>
             </TabsTrigger>
-            <TabsTrigger value="certifications" className="tab-trigger flex items-center justify-center space-x-1 min-h-[3rem]">
+            <TabsTrigger value="certifications" className="flex items-center space-x-2">
               <Award className="h-4 w-4" />
-              <span className="hidden lg:inline text-sm">Certs</span>
+              <span className="hidden sm:inline">Certs</span>
             </TabsTrigger>
-            <TabsTrigger value="projects" className="tab-trigger flex items-center justify-center space-x-1 min-h-[3rem]">
+            <TabsTrigger value="projects" className="flex items-center space-x-2">
               <FolderOpen className="h-4 w-4" />
-              <span className="hidden lg:inline text-sm">Projects</span>
+              <span className="hidden sm:inline">Projects</span>
             </TabsTrigger>
-            <TabsTrigger value="languages" className="tab-trigger flex items-center justify-center space-x-1 min-h-[3rem]">
+            <TabsTrigger value="languages" className="flex items-center space-x-2">
               <Languages className="h-4 w-4" />
-              <span className="hidden lg:inline text-sm">Languages</span>
+              <span className="hidden sm:inline">Languages</span>
             </TabsTrigger>
           </TabsList>
 

@@ -315,13 +315,13 @@ export function JobMatchAnalyzer({ resumeData, onOptimize }: JobMatchAnalyzerPro
   };
 
   return (
-    <Card className="card-modern">
+    <Card className="border-blue-200" style={{ background: 'linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(8, 145, 178, 0.05) 100%)' }}>
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2 gradient-text">
+        <CardTitle className="flex items-center space-x-2 icon-primary">
           <Target className="h-5 w-5" />
           <span>Job Match Analyzer</span>
           {matchResult && (
-            <Badge variant="secondary" className="ml-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700">
+            <Badge variant="secondary" className="ml-2">
               {matchResult.score}% match
             </Badge>
           )}
@@ -373,7 +373,7 @@ export function JobMatchAnalyzer({ resumeData, onOptimize }: JobMatchAnalyzerPro
               <Button
                 onClick={analyzeMatch}
                 disabled={isAnalyzing || !jobTitle.trim() || !jobDescription.trim()}
-                className="w-full btn-primary text-lg py-4"
+                className="w-full btn-primary"
               >
                 {isAnalyzing ? (
                   <>
