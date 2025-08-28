@@ -11,10 +11,11 @@ export function ModernTemplate({ resumeData }: ModernTemplateProps) {
   const { personalInfo, workExperience, education, skills, certifications, projects, languages = [] } = resumeData;
 
   return (
-    <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="w-full mx-auto bg-white overflow-hidden transition-all duration-300 hover:shadow-xl">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white p-8">
-        <div className="flex flex-col md:flex-row items-center justify-between">
+      <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-purple-700 text-white p-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+        <div className="relative flex flex-col md:flex-row items-center justify-between">
           <div className="text-center md:text-left">
             <h1 className="text-4xl font-bold mb-2">{personalInfo?.fullName || ''}</h1>
             <p className="text-xl opacity-90">{workExperience?.[0]?.position || ''}</p>
@@ -58,7 +59,9 @@ export function ModernTemplate({ resumeData }: ModernTemplateProps) {
         {/* Summary */}
         {personalInfo?.summary && (
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-blue-600 pb-2">Professional Summary</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gradient-to-r from-purple-600 to-pink-500 pb-2 relative">
+              <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Professional Summary</span>
+            </h2>
             <p className="text-gray-700 leading-relaxed">{personalInfo.summary}</p>
           </section>
         )}
@@ -69,14 +72,16 @@ export function ModernTemplate({ resumeData }: ModernTemplateProps) {
             {/* Work Experience */}
             {workExperience && workExperience.length > 0 && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-blue-600 pb-2">Work Experience</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gradient-to-r from-purple-600 to-pink-500 pb-2 relative">
+                  <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Work Experience</span>
+                </h2>
                 <div className="space-y-6">
-                  {workExperience.map((job) => (
-                    <div key={job.id} className="relative pl-6 border-l-2 border-blue-200">
-                      <div className="absolute w-4 h-4 bg-blue-600 rounded-full -left-2 top-0"></div>
+                  {workExperience.map((job, index) => (
+                    <div key={job.id} className="relative pl-8 border-l-2 border-gradient-to-b from-purple-300 to-pink-300 transition-all duration-300 hover:border-purple-500 hover:pl-10">
+                      <div className="absolute w-4 h-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full -left-2 top-0 shadow-lg animate-pulse" style={{ animationDelay: `${index * 100}ms` }}></div>
                       <div className="mb-2">
                         <h3 className="text-xl font-semibold text-gray-800">{job.position}</h3>
-                        <p className="text-lg text-blue-600 font-medium">{job.company}</p>
+                        <p className="text-lg bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent font-medium">{job.company}</p>
                         <p className="text-sm text-gray-600">
                           {job.startDate} - {job.isCurrentJob ? 'Present' : job.endDate}
                         </p>
@@ -93,10 +98,12 @@ export function ModernTemplate({ resumeData }: ModernTemplateProps) {
             {/* Projects */}
             {projects && projects.length > 0 && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-blue-600 pb-2">Projects</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gradient-to-r from-purple-600 to-pink-500 pb-2 relative">
+                  <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Projects</span>
+                </h2>
                 <div className="space-y-4">
-                  {projects.map((project) => (
-                    <div key={project.id} className="bg-gray-50 p-4 rounded-lg">
+                  {projects.map((project, index) => (
+                    <div key={project.id} className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-lg border border-purple-100 transition-all duration-300 hover:shadow-md hover:scale-[1.02]" style={{ animationDelay: `${index * 50}ms` }}>
                       <h3 className="text-lg font-semibold text-gray-800 mb-2">{project.name}</h3>
                       {project.description && (
                         <p className="text-gray-700">{project.description}</p>
@@ -115,8 +122,8 @@ export function ModernTemplate({ resumeData }: ModernTemplateProps) {
               <section>
                 <h2 className="text-xl font-bold text-gray-800 mb-3 border-b border-gray-300 pb-2">Skills</h2>
                 <div className="space-y-2">
-                  {skills.map((skill) => (
-                    <div key={skill.id} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm inline-block mr-2 mb-2">
+                  {skills.map((skill, index) => (
+                    <div key={skill.id} className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-4 py-2 rounded-full text-sm inline-block mr-2 mb-2 border border-purple-200 transition-all duration-300 hover:shadow-md hover:scale-105" style={{ animationDelay: `${index * 30}ms` }}>
                       {skill.name}
                     </div>
                   ))}
@@ -132,7 +139,7 @@ export function ModernTemplate({ resumeData }: ModernTemplateProps) {
                   {education.map((edu) => (
                     <div key={edu.id}>
                       <h3 className="font-semibold text-gray-800">{edu.degree}</h3>
-                      <p className="text-blue-600">{edu.school}</p>
+                      <p className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent font-medium">{edu.school}</p>
                       {edu.field && <p className="text-sm text-gray-600">{edu.field}</p>}
                       {edu.graduationDate && <p className="text-sm text-gray-600">{edu.graduationDate}</p>}
                     </div>

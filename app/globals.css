@@ -532,10 +532,6 @@ input:focus, textarea:focus, select:focus, button:focus {
     display: none !important;
   }
 
-  body * {
-    visibility: hidden;
-  }
-
   .resume-preview, .resume-preview * {
     visibility: visible;
   }
