@@ -80,7 +80,7 @@
   body {
     @apply bg-background text-foreground;
     background: #f6f6f6;
-    color: #fff;
+    color: #707070;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
 }
@@ -186,7 +186,7 @@
 /* Enhanced Form Styles */
 .form-input {
   @apply w-full px-6 py-4 border-2 rounded-xl transition-all duration-300 text-base;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border-color: var(--border-color);
   color: var(--secondary-text);
 }
@@ -201,7 +201,7 @@
 
 .form-textarea {
   @apply w-full px-6 py-4 border-2 rounded-xl transition-all duration-300 resize-none;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border-color: var(--border-color);
   color: var(--secondary-text);
 }
@@ -403,7 +403,7 @@
 
 /* Tab Styles */
 .tab-trigger {
-  @apply px-6 py-3 text-base font-semibold transition-all duration-300 border-b-3 border-transparent rounded-t-lg;
+  @apply px-6 py-3 text-base font-semibold transition-all duration-300 border-b-2 border-transparent rounded-t-lg;
   color: var(--secondary-text);
 }
 
@@ -421,7 +421,7 @@
 
 /* Upload Zone */
 .upload-zone {
-  @apply border-3 border-dashed rounded-2xl p-12 text-center transition-all duration-300;
+  @apply border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300;
   border-color: var(--border-color);
   background: linear-gradient(135deg, rgba(160, 125, 241, 0.03) 0%, rgba(246, 157, 186, 0.03) 100%);
 }
