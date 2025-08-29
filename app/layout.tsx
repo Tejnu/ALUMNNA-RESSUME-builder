@@ -15,6 +15,15 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+          async
+          onLoad={() => {
+            if (typeof window !== 'undefined') {
+              console.log('html2pdf loaded successfully');
+            }
+          }}
+        />
       </body>
     </html>
   );
