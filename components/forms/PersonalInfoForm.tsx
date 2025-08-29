@@ -141,3 +141,5 @@ export function PersonalInfoForm({ personalInfo, onUpdate }: PersonalInfoFormPro
       </div>
       </Tabs>
     </div>
+  )
+}
