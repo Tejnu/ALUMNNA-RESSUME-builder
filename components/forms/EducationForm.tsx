@@ -50,20 +50,34 @@ export function EducationForm({ education, onUpdate }: EducationFormProps) {
 
   return (
     <div className="space-y-4">
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Education</h3>
+        <p className="text-sm text-gray-600">Add your educational background and qualifications</p>
+      </div>
+      
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">Education</h3>
-        <Button onClick={addEducation} size="sm">
+        <div className="flex items-center space-x-2">
+          <GraduationCap className="h-5 w-5 text-purple-600" />
+          <span className="font-medium text-gray-700">Education Entries ({education.length})</span>
+        </div>
+        <Button 
+          onClick={addEducation} 
+          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-200 rounded-lg px-4 py-2"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Add Education
         </Button>
       </div>
 
       {education.length === 0 ? (
-        <Card className="border-dashed">
+        <Card className="border-dashed border-2 border-gray-200 bg-gray-50/50">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <GraduationCap className="h-12 w-12 text-gray-400 mb-4" />
             <p className="text-gray-500 mb-4">No education added yet</p>
-            <Button onClick={addEducation} variant="outline">
+            <Button 
+              onClick={addEducation} 
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-200 rounded-lg"
+            >
               <Plus className="h-4 w-4 mr-2" />
               Add Your Education
             </Button>
@@ -72,7 +86,7 @@ export function EducationForm({ education, onUpdate }: EducationFormProps) {
       ) : (
         <div className="space-y-4">
           {education.map((edu) => (
-            <Card key={edu.id} className="transition-all duration-200">
+            <Card key={edu.id} className="transition-all duration-200 border border-gray-200 hover:border-purple-300 hover:shadow-md bg-white">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">
@@ -83,6 +97,7 @@ export function EducationForm({ education, onUpdate }: EducationFormProps) {
                       variant="ghost"
                       size="sm"
                       onClick={() => toggleExpanded(edu.id)}
+                      className="text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all duration-200"
                     >
                       {expandedItems.includes(edu.id) ? 'Collapse' : 'Expand'}
                     </Button>
@@ -90,7 +105,7 @@ export function EducationForm({ education, onUpdate }: EducationFormProps) {
                       variant="ghost"
                       size="sm"
                       onClick={() => removeEducation(edu.id)}
-                      className="text-red-600 hover:text-red-700"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

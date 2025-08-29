@@ -422,12 +422,10 @@ export default function Home() {
               </TabsList>
 
               <TabsContent value="form">
-                <Card className="card-modern">
-                  <ResumeForm
-                    resumeData={resumeData}
-                    onUpdate={updateResumeData}
-                  />
-                </Card>
+                <ResumeForm
+                  resumeData={resumeData}
+                  onUpdate={updateResumeData}
+                />
               </TabsContent>
 
               <TabsContent value="ai">

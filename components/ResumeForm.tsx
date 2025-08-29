@@ -2,7 +2,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PersonalInfoForm } from './forms/PersonalInfoForm';
 import { WorkExperienceForm } from './forms/WorkExperienceForm';
@@ -85,87 +84,109 @@ export function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
   const organizedResumeData = validateAndOrganizeData(resumeData);
 
   return (
-    <Card className="card-modern">
-      <CardHeader>
-        <CardTitle className="text-xl font-semibold gradient-text">Edit Resume</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-7 text-xs bg-gradient-to-r from-purple-50 to-pink-50 border border-border-color">
-            <TabsTrigger value="personal" className="tab-trigger flex items-center space-x-2">
+    <div className="space-y-6">
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Resume Builder</h2>
+        <p className="text-gray-600">Build and customize your professional resume</p>
+      </div>
+      
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-7 bg-white border border-gray-200 rounded-xl p-1 shadow-sm">
+          <TabsTrigger 
+            value="personal" 
+            className="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-gray-50"
+          >
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Personal</span>
             </TabsTrigger>
-            <TabsTrigger value="work" className="tab-trigger flex items-center space-x-2">
+            <TabsTrigger 
+              value="work" 
+              className="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-gray-50"
+            >
               <Briefcase className="h-4 w-4" />
               <span className="hidden sm:inline">Experience</span>
             </TabsTrigger>
-            <TabsTrigger value="education" className="tab-trigger flex items-center space-x-2">
+            <TabsTrigger 
+              value="education" 
+              className="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-gray-50"
+            >
               <GraduationCap className="h-4 w-4" />
               <span className="hidden sm:inline">Education</span>
             </TabsTrigger>
-            <TabsTrigger value="skills" className="tab-trigger flex items-center space-x-2">
+            <TabsTrigger 
+              value="skills" 
+              className="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-gray-50"
+            >
               <Code className="h-4 w-4" />
               <span className="hidden sm:inline">Skills</span>
             </TabsTrigger>
-            <TabsTrigger value="certifications" className="tab-trigger flex items-center space-x-2">
+            <TabsTrigger 
+              value="certifications" 
+              className="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-gray-50"
+            >
               <Award className="h-4 w-4" />
               <span className="hidden sm:inline">Certs</span>
             </TabsTrigger>
-            <TabsTrigger value="projects" className="tab-trigger flex items-center space-x-2">
+            <TabsTrigger 
+              value="projects" 
+              className="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-gray-50"
+            >
               <FolderOpen className="h-4 w-4" />
               <span className="hidden sm:inline">Projects</span>
             </TabsTrigger>
-            <TabsTrigger value="languages" className="tab-trigger flex items-center space-x-2">
+            <TabsTrigger 
+              value="languages" 
+              className="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-gray-50"
+            >
               <Languages className="h-4 w-4" />
               <span className="hidden sm:inline">Languages</span>
             </TabsTrigger>
           </TabsList>
 
-          <div className="mt-6">
-            <TabsContent value="personal" className="space-y-4">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <TabsContent value="personal" className="space-y-6 mt-0">
               <PersonalInfoForm
                 personalInfo={organizedResumeData.personalInfo}
                 onUpdate={(personalInfo) => onUpdate({ personalInfo })}
               />
             </TabsContent>
 
-            <TabsContent value="work" className="space-y-4">
+            <TabsContent value="work" className="space-y-6 mt-0">
               <WorkExperienceForm
                 workExperience={organizedResumeData.workExperience}
                 onUpdate={(workExperience) => onUpdate({ workExperience })}
               />
             </TabsContent>
 
-            <TabsContent value="education" className="space-y-4">
+            <TabsContent value="education" className="space-y-6 mt-0">
               <EducationForm
                 education={organizedResumeData.education}
                 onUpdate={(education) => onUpdate({ education })}
               />
             </TabsContent>
 
-            <TabsContent value="skills" className="space-y-4">
+            <TabsContent value="skills" className="space-y-6 mt-0">
               <SkillsForm
                 skills={organizedResumeData.skills}
                 onUpdate={(skills) => onUpdate({ skills })}
               />
             </TabsContent>
 
-            <TabsContent value="certifications" className="space-y-4">
+            <TabsContent value="certifications" className="space-y-6 mt-0">
               <CertificationsForm
                 certifications={organizedResumeData.certifications}
                 onUpdate={(certifications) => onUpdate({ certifications })}
               />
             </TabsContent>
 
-            <TabsContent value="projects">
+            <TabsContent value="projects" className="mt-0">
               <ProjectsForm
                 projects={organizedResumeData.projects}
                 onUpdate={(projects) => onUpdate({ projects })}
               />
             </TabsContent>
 
-            <TabsContent value="languages">
+            <TabsContent value="languages" className="mt-0">
               <LanguagesForm
                 languages={organizedResumeData.languages}
                 onUpdate={(languages) => onUpdate({ languages })}
@@ -173,7 +194,6 @@ export function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
             </TabsContent>
           </div>
         </Tabs>
-      </CardContent>
-    </Card>
+    </div>
   );
 }

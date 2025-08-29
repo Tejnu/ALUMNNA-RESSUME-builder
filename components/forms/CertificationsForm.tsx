@@ -52,20 +52,34 @@ export function CertificationsForm({ certifications, onUpdate }: CertificationsF
 
   return (
     <div className="space-y-4">
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Certifications</h3>
+        <p className="text-sm text-gray-600">Add your professional certifications and credentials</p>
+      </div>
+      
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">Certifications</h3>
-        <Button onClick={addCertification} size="sm">
+        <div className="flex items-center space-x-2">
+          <Award className="h-5 w-5 text-purple-600" />
+          <span className="font-medium text-gray-700">Certifications ({certifications.length})</span>
+        </div>
+        <Button 
+          onClick={addCertification} 
+          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-200 rounded-lg px-4 py-2"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Add Certification
         </Button>
       </div>
 
       {certifications.length === 0 ? (
-        <Card className="border-dashed">
+        <Card className="border-dashed border-2 border-gray-200 bg-gray-50/50">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Award className="h-12 w-12 text-gray-400 mb-4" />
             <p className="text-gray-500 mb-4">No certifications added yet</p>
-            <Button onClick={addCertification} variant="outline">
+            <Button 
+              onClick={addCertification} 
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-200 rounded-lg"
+            >
               <Plus className="h-4 w-4 mr-2" />
               Add Your First Certification
             </Button>

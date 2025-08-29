@@ -78,11 +78,17 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">Skills</h3>
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Skills & Technologies</h3>
+        <p className="text-sm text-gray-600">Add your technical and professional skills</p>
+      </div>
 
-      <Card>
+      <Card className="border border-gray-200 bg-white shadow-sm">
         <CardHeader className="pb-4">
-          <CardTitle className="text-base">Add New Skill</CardTitle>
+          <CardTitle className="text-base font-semibold text-gray-900 flex items-center space-x-2">
+            <Code className="h-5 w-5 text-purple-600" />
+            <span>Add New Skill</span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex space-x-2">
@@ -93,6 +99,7 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
                 onKeyPress={handleKeyPress}
                 onFocus={handleSkillInputFocus}
                 placeholder="Enter a skill (e.g., JavaScript, Project Management)"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
               />
               {showSuggestions && (
                 <SmartSuggestions
@@ -105,7 +112,7 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
             </div>
             <div className="w-40">
               <Select value={newSkillLevel} onValueChange={(value: Skill['level']) => setNewSkillLevel(value)}>
-                <SelectTrigger>
+                <SelectTrigger className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -116,7 +123,11 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={addSkill} disabled={!newSkillName.trim()}>
+            <Button 
+              onClick={addSkill} 
+              disabled={!newSkillName.trim()}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-200 rounded-lg px-6 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               <Plus className="h-4 w-4" />
             </Button>
           </div>
@@ -124,7 +135,7 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
       </Card>
 
       {skills.length === 0 ? (
-        <Card className="border-dashed">
+        <Card className="border-dashed border-2 border-gray-200 bg-gray-50/50">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Code className="h-12 w-12 text-gray-400 mb-4" />
             <p className="text-gray-500 mb-4">No skills added yet</p>
@@ -132,19 +143,22 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
           </CardContent>
         </Card>
       ) : (
-        <Card>
+        <Card className="border border-gray-200 bg-white shadow-sm">
           <CardHeader>
-            <CardTitle className="text-base">Your Skills ({skills.length})</CardTitle>
+            <CardTitle className="text-base font-semibold text-gray-900 flex items-center space-x-2">
+              <Target className="h-5 w-5 text-purple-600" />
+              <span>Your Skills ({skills.length})</span>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {skills.map((skill) => (
                 <div
                   key={skill.id}
-                  className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-purple-50 hover:border-purple-300 transition-all duration-200"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="font-medium">{skill.name}</span>
+                    <span className="font-medium text-gray-900">{skill.name}</span>
                     <Badge variant="outline" className={getLevelColor(skill.level)}>
                       {skill.level}
                     </Badge>
@@ -154,7 +168,7 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
                       value={skill.level}
                       onValueChange={(value: Skill['level']) => updateSkill(skill.id, { level: value })}
                     >
-                      <SelectTrigger className="w-32">
+                      <SelectTrigger className="w-32 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -168,7 +182,7 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
                       variant="ghost"
                       size="sm"
                       onClick={() => removeSkill(skill.id)}
-                      className="text-red-600 hover:text-red-700"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
                     >
                       <X className="h-4 w-4" />
                     </Button>
