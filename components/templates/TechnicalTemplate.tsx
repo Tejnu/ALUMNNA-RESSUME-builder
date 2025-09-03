@@ -18,7 +18,7 @@ export function TechnicalTemplate({ resumeData }: TechnicalTemplateProps) {
 
   const { personalInfo, workExperience = [], education = [], skills = [], projects = [], certifications = [], languages = [] } = resumeData;
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | undefined) => {
     if (!dateString) return '';
     const date = new Date(dateString + '-01');
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
@@ -160,7 +160,7 @@ export function TechnicalTemplate({ resumeData }: TechnicalTemplateProps) {
               {projects.map((project) => (
                 <div key={project.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-lg font-bold text-gray-900">{project.name}</h3>
+                    <h3 className="text-lg font-bold text-gray-900">{project.title || project.name}</h3>
                     {(project.startDate || project.endDate) && (
                       <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
                         {project.startDate && formatDate(project.startDate)}
@@ -175,22 +175,30 @@ export function TechnicalTemplate({ resumeData }: TechnicalTemplateProps) {
                   )}
 
                   {project.technologies && project.technologies.length > 0 && (
-                    <div className="mb-2">
-                      <p className="text-xs font-semibold text-gray-600 mb-2">TECHNOLOGIES:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {project.technologies.map((tech, index) => (
-                          <span key={index} className="px-2 py-1 bg-purple-50 text-purple-700 text-xs rounded border border-purple-200">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {project.technologies.map((tech, idx) => (
+                        <span key={idx} className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
                   )}
 
-                  {project.url && (
-                    <a href={project.url} className="text-sm text-purple-600 hover:underline" target="_blank" rel="noopener noreferrer">
-                      {project.url}
-                    </a>
+                  {(project.url || project.link || project.github) && (
+                    <div className="flex gap-4 text-sm">
+                      {(project.url || project.link) && (
+                        <a href={project.url || project.link} target="_blank" rel="noopener noreferrer" 
+                           className="text-purple-600 hover:text-purple-800 font-medium hover:underline">
+                          🔗 View Project
+                        </a>
+                      )}
+                      {project.github && (
+                        <a href={project.github} target="_blank" rel="noopener noreferrer" 
+                           className="text-purple-600 hover:text-purple-800 font-medium hover:underline">
+                          🐙 GitHub
+                        </a>
+                      )}
+                    </div>
                   )}
                 </div>
               ))}

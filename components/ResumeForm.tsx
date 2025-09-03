@@ -11,7 +11,7 @@ import { CertificationsForm } from './forms/CertificationsForm';
 import { ProjectsForm } from './forms/ProjectsForm';
 import { LanguagesForm } from './forms/LanguagesForm';
 import { ResumeData } from '@/types/resume';
-import { User, Briefcase, GraduationCap, Code, Award, FolderOpen, Languages } from 'lucide-react';
+import { User, Briefcase, GraduationCap, Code, Award, FolderOpen, Globe as Languages } from 'lucide-react';
 
 // Smart validation and organization logic for resume data
 const validateAndOrganizeData = (data: ResumeData): ResumeData => {

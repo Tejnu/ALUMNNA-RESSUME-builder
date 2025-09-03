@@ -25,6 +25,7 @@ export function WorkExperienceForm({ workExperience, onUpdate }: WorkExperienceF
       position: '',
       startDate: '',
       endDate: '',
+      current: false,
       isCurrentJob: false,
       description: '',
     };

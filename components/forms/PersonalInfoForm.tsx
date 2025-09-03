@@ -27,7 +27,7 @@ export function PersonalInfoForm({ personalInfo, onUpdate }: PersonalInfoFormPro
   };
 
   const applySuggestionToSummary = (suggestion: string) => {
-    const currentSummary = personalInfo.summary;
+    const currentSummary = personalInfo.summary || '';
     let newSummary = currentSummary;
     
     if (suggestion.includes('Add specific years')) {
@@ -133,13 +133,12 @@ export function PersonalInfoForm({ personalInfo, onUpdate }: PersonalInfoFormPro
         {showSuggestions && (
           <SmartSuggestions
             context="summary"
-            currentValue={personalInfo.summary}
+            currentValue={personalInfo.summary || ''}
             onApplySuggestion={applySuggestionToSummary}
             type="summary"
           />
         )}
       </div>
-      </Tabs>
     </div>
   )
 }

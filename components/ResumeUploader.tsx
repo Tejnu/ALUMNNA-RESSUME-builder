@@ -230,12 +230,13 @@ ${textChunks[0].slice(0, 20000)}`
       const uniqueSkills = [...new Set(parsed.skills
         .filter((skill: string) => typeof skill === 'string' && skill.trim().length > 0)
         .map((skill: string) => skill.trim())
-      )];
+      )] as string[];
 
       result.skills = uniqueSkills.slice(0, 30).map((name: string, i: number) => ({
         id: String(Date.now() + i),
         name: name.slice(0, 50),
-        level: 'Intermediate' as const
+        level: 'intermediate' as const,
+        category: 'Technical'
       }));
     }
 
@@ -417,7 +418,8 @@ function buildResumeDataFromText(text: string): Partial<ResumeData> {
           skills.push({
             id: String(Date.now() + idx),
             name: skill,
-            level: 'Intermediate' as const
+            level: 'intermediate' as const,
+            category: 'Technical'
           });
         }
       });
@@ -432,7 +434,8 @@ function buildResumeDataFromText(text: string): Partial<ResumeData> {
         skills.push({
           id: String(Date.now() + idx),
           name: skill,
-          level: 'Intermediate' as const
+          level: 'intermediate' as const,
+          category: 'Technical'
         });
       }
     });
@@ -499,6 +502,7 @@ function buildResumeDataFromText(text: string): Partial<ResumeData> {
             position: currentJob.position,
             startDate: convertDateToISO(currentJob.startDate || ''),
             endDate: currentJob.isCurrentJob ? '' : convertDateToISO(currentJob.endDate || ''),
+            current: currentJob.isCurrentJob || false,
             isCurrentJob: currentJob.isCurrentJob || false,
             description: descriptions.join('\n').substring(0, 500)
           });
@@ -542,6 +546,7 @@ function buildResumeDataFromText(text: string): Partial<ResumeData> {
         position: currentJob.position,
         startDate: convertDateToISO(currentJob.startDate || ''),
         endDate: currentJob.isCurrentJob ? '' : convertDateToISO(currentJob.endDate || ''),
+        current: currentJob.isCurrentJob || false,
         isCurrentJob: currentJob.isCurrentJob || false,
         description: descriptions.join('\n').substring(0, 500)
       });
@@ -568,10 +573,14 @@ function buildResumeDataFromText(text: string): Partial<ResumeData> {
         const parts = line.split(/[-–—|]/).map(p => p.trim());
         education.push({
           id: String(Date.now() + i),
+          institution: parts.find(p => schoolPattern.test(p)) || parts[parts.length - 1] || '',
           school: parts.find(p => schoolPattern.test(p)) || parts[parts.length - 1] || '',
           degree: parts.find(p => degreePattern.test(p)) || parts[0] || '',
           field: '',
-          graduationDate: ''
+          startDate: '',
+          endDate: '',
+          graduationDate: '',
+          current: false
         });
       }
     }

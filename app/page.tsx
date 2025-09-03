@@ -46,6 +46,7 @@ export default function Home() {
   const [wizardData, setWizardData] = useState<any>(null);
   const [showLanding, setShowLanding] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [enhancedDownloadPDF, setEnhancedDownloadPDF] = useState<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
     // Load data from localStorage on component mount
@@ -201,65 +202,20 @@ export default function Home() {
     }
   };
 
-  const handleDownloadPDF = () => {
-    setIsDownloading(true);
-
-    try {
-      const printContent = document.getElementById('resume-preview-content');
-      if (!printContent) return;
-
-      // Create a new window for printing
-      const printWindow = window.open('', '_blank');
-      if (!printWindow) return;
-
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>Resume - ${resumeData.personalInfo.fullName || 'Resume'}</title>
-            <style>
-              * { margin: 0; padding: 0; box-sizing: border-box; }
-              body { 
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                line-height: 1.5;
-                color: #1f2937;
-                background: white;
-              }
-              @page { 
-                margin: 0.5in; 
-                size: letter; 
-              }
-              .resume-content {
-                width: 100%;
-                max-width: none;
-                margin: 0;
-                padding: 0;
-                background: white;
-              }
-              @media print {
-                body { -webkit-print-color-adjust: exact; }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="resume-content">
-              ${printContent.innerHTML}
-            </div>
-          </body>
-        </html>
-      `);
-
-      printWindow.document.close();
-
-      // Wait for content to load, then print
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
+  const handleDownloadPDF = async () => {
+    if (enhancedDownloadPDF) {
+      // Use the enhanced PDF download from ResumePreview
+      await enhancedDownloadPDF();
+    } else {
+      // Fallback to simple print dialog
+      setIsDownloading(true);
+      try {
+        window.print();
+      } catch (error) {
+        console.error('Error printing:', error);
+      } finally {
         setIsDownloading(false);
-      }, 500);
-    } catch (error) {
-      console.error('Error downloading PDF:', error);
-      setIsDownloading(false);
+      }
     }
   };
 
@@ -291,37 +247,6 @@ export default function Home() {
           return enhancement ? { ...exp, description: enhancement.enhancement } : exp;
         });
         updateResumeData({ workExperience: enhancedExperience });
-        break;
-    }
-  };
-
-  const handleAnalyzerFix = (fix: any) => {
-    switch (fix.type) {
-      case 'add-summary':
-        updateResumeData({
-          personalInfo: {
-            ...resumeData.personalInfo,
-            summary: 'Results-driven professional with proven expertise in delivering high-quality solutions and driving business growth. Experienced in leading cross-functional teams and implementing scalable technologies that improve efficiency by 30% and reduce costs by 25%. Passionate about innovation and continuous learning in fast-paced environments.'
-          }
-        });
-        break;
-      case 'enhance-experience':
-        // Add metrics to experience descriptions
-        const enhancedExp = resumeData.workExperience.map(exp => ({
-          ...exp,
-          description: exp.description + '\n• Improved team productivity by 30% and reduced project delivery time by 25%\n• Led cross-functional team of 6+ members across design, development, and QA\n• Implemented best practices resulting in 50% reduction in bug reports\n• Mentored 3 junior developers, with 100% promotion rate within 12 months'
-        }));
-        updateResumeData({ workExperience: enhancedExp });
-        break;
-      case 'add-keywords':
-        const keywordSkills = ['Agile/Scrum', 'CI/CD', 'RESTful APIs', 'Microservices', 'Cloud Computing'].map((skill, index) => ({
-          id: (Date.now() + index).toString(),
-          name: skill,
-          level: 'Intermediate' as const
-        }));
-        updateResumeData({
-          skills: [...resumeData.skills, ...keywordSkills]
-        });
         break;
     }
   };
@@ -388,8 +313,6 @@ export default function Home() {
     <div className="min-h-screen page-background">
       <Header 
         onFileUpload={handleFileUpload}
-        onAIEnhance={handleAIEnhance}
-        isAIProcessing={isAIProcessing}
         onDownloadPDF={handleDownloadPDF}
       />
 
@@ -438,7 +361,6 @@ export default function Home() {
               <TabsContent value="analyzer">
                 <ResumeAnalyzer
                   resumeData={resumeData}
-                  onApplyFix={handleAnalyzerFix}
                 />
               </TabsContent>
 
@@ -455,6 +377,7 @@ export default function Home() {
           <div className="lg:col-span-2 lg:sticky lg:top-8 lg:h-fit">
             <ResumePreview 
               resumeData={resumeData} 
+              onDownloadPDFReady={setEnhancedDownloadPDF}
             />
           </div>
         </div>

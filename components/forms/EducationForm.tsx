@@ -19,11 +19,15 @@ export function EducationForm({ education, onUpdate }: EducationFormProps) {
   const addEducation = () => {
     const newEducation: Education = {
       id: Date.now().toString(),
+      institution: '',
       school: '',
       degree: '',
       field: '',
+      startDate: '',
+      endDate: '',
       graduationDate: '',
-      gpa: '',
+      current: false,
+      gpa: ''
     };
     onUpdate([...education, newEducation]);
     setExpandedItems([...expandedItems, newEducation.id]);

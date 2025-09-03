@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, FolderOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -19,7 +19,7 @@ export function ProjectsForm({ projects, onUpdate }: ProjectsFormProps) {
       id: Date.now().toString(),
       title: '',
       description: '',
-      technologies: '',
+      technologies: [],
       startDate: '',
       endDate: '',
       url: ''
@@ -29,9 +29,17 @@ export function ProjectsForm({ projects, onUpdate }: ProjectsFormProps) {
 
   const updateProject = (id: string, field: keyof Project, value: string) => {
     onUpdate(
-      projects.map(project =>
-        project.id === id ? { ...project, [field]: value } : project
-      )
+      projects.map(project => {
+        if (project.id === id) {
+          if (field === 'technologies') {
+            // Convert comma-separated string to array
+            const techArray = value.split(',').map(tech => tech.trim()).filter(tech => tech.length > 0);
+            return { ...project, [field]: techArray };
+          }
+          return { ...project, [field]: value };
+        }
+        return project;
+      })
     );
   };
 
@@ -123,7 +131,7 @@ export function ProjectsForm({ projects, onUpdate }: ProjectsFormProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Technologies Used</label>
               <Input
-                value={project.technologies || ''}
+                value={Array.isArray(project.technologies) ? project.technologies.join(', ') : project.technologies || ''}
                 onChange={(e) => updateProject(project.id, 'technologies', e.target.value)}
                 placeholder="React, Node.js, MongoDB, AWS"
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"

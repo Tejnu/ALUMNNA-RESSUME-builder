@@ -21,40 +21,55 @@ import {
   BarChart3,
   Eye,
   Brain,
-  X
+  X,
+  Skull,
+  ThumbsDown,
+  AlertCircle
 } from 'lucide-react';
 
 interface JobMatchAnalyzerProps {
   resumeData: ResumeData;
-  onOptimize: (optimizations: any) => void;
+  onOptimize?: (optimizations: any) => void;
 }
 
-interface MatchResult {
-  score: number;
-  matchedSkills: string[];
-  missingSkills: string[];
-  matchedKeywords: string[];
-  missingKeywords: string[];
-  suggestions: MatchSuggestion[];
-  keywordDensity: { [key: string]: number };
-  atsScore: number;
-  competitiveness: 'low' | 'medium' | 'high';
-}
-
-interface MatchSuggestion {
-  id: string;
-  type: 'skill' | 'keyword' | 'experience' | 'format';
-  title: string;
-  description: string;
-  priority: 'high' | 'medium' | 'low';
-  impact: string;
+interface AIJobMatchResult {
+  compatibilityScore: number;
+  verdict: 'REJECT' | 'MAYBE' | 'INTERVIEW' | 'STRONG_MATCH';
+  harshFeedback: string;
+  criticalGaps: {
+    category: 'SKILLS' | 'EXPERIENCE' | 'EDUCATION' | 'CERTIFICATIONS';
+    gap: string;
+    severity: 'DEALBREAKER' | 'CRITICAL' | 'MAJOR' | 'MINOR';
+    harshComment: string;
+  }[];
+  strengths: {
+    point: string;
+    relevance: 'HIGH' | 'MEDIUM' | 'LOW';
+  }[];
+  redFlags: string[];
+  improvements: {
+    action: string;
+    timeframe: string;
+    difficulty: 'EASY' | 'HARD' | 'NEARLY_IMPOSSIBLE';
+    honestAssessment: string;
+  }[];
+  competitionAnalysis: {
+    candidateLevel: 'BEGINNER' | 'JUNIOR' | 'MID' | 'SENIOR' | 'EXPERT';
+    jobLevel: 'BEGINNER' | 'JUNIOR' | 'MID' | 'SENIOR' | 'EXPERT';
+    realityCheck: string;
+  };
+  salaryReality: {
+    theirWorth: string;
+    jobExpectation: string;
+    gap: string;
+  };
 }
 
 export function JobMatchAnalyzer({ resumeData, onOptimize }: JobMatchAnalyzerProps) {
   const [jobTitle, setJobTitle] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [companyName, setCompanyName] = useState('');
-  const [matchResult, setMatchResult] = useState<MatchResult | null>(null);
+  const [matchResult, setMatchResult] = useState<AIJobMatchResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [savedJobs, setSavedJobs] = useState<Array<{title: string, company: string, score: number}>>([]);
 
@@ -63,525 +78,480 @@ export function JobMatchAnalyzer({ resumeData, onOptimize }: JobMatchAnalyzerPro
 
     setIsAnalyzing(true);
 
-    // Simulate comprehensive job matching analysis
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    // First, analyze the actual resume content
-    const resumeText = `
-      ${resumeData.personalInfo?.fullName || ''} 
-      ${resumeData.personalInfo?.title || ''} 
-      ${resumeData.personalInfo?.summary || ''} 
-      ${resumeData.workExperience?.map(exp => `${exp.position || ''} ${exp.company || ''} ${exp.description || ''}`).join(' ') || ''}
-      ${resumeData.education?.map(edu => `${edu.degree || ''} ${edu.school || ''} ${edu.field || ''}`).join(' ') || ''}
-      ${resumeData.skills?.map(skill => skill.name || '').join(' ') || ''}
-      ${resumeData.projects?.map(proj => `${proj.name || ''} ${proj.description || ''} ${Array.isArray(proj.technologies) ? proj.technologies.join(' ') : ''}`).join(' ') || ''}
-      ${resumeData.certifications?.map(cert => `${cert.name || ''} ${cert.issuer || ''}`).join(' ') || ''}
-      ${resumeData.languages?.map(lang => `${lang.language || ''} ${lang.proficiency || ''}`).join(' ') || ''}
-    `.toLowerCase();
-
-    // Extract and analyze keywords from job description
-    const jobText = `${jobTitle} ${jobDescription}`.toLowerCase();
-    const commonTechKeywords = [
-      'javascript', 'js', 'python', 'react', 'reactjs', 'node.js', 'nodejs', 'node', 'typescript', 'ts',
-      'aws', 'amazon web services', 'docker', 'kubernetes', 'k8s', 'sql', 'mysql', 'postgresql', 'postgres',
-      'mongodb', 'mongo', 'git', 'github', 'gitlab', 'agile', 'scrum', 'ci/cd', 'jenkins', 'api', 'rest',
-      'graphql', 'html', 'css', 'sass', 'less', 'redux', 'vue', 'angular', 'svelte', 'next.js', 'nextjs',
-      'restful', 'graphql', 'microservices', 'cloud', 'azure', 'gcp', 'google cloud', 'devops', 'terraform',
-      'ansible', 'machine learning', 'ml', 'ai', 'artificial intelligence', 'frontend', 'front-end', 'backend',
-      'back-end', 'full-stack', 'fullstack', 'database', 'testing', 'unit testing', 'integration testing',
-      'security', 'cybersecurity', 'html', 'css', 'sass', 'less', 'webpack', 'babel', 'jest', 'cypress',
-      'selenium', 'redux', 'vue', 'vuejs', 'angular', 'angularjs', 'express', 'expressjs', 'spring',
-      'django', 'flask', 'laravel', 'php', 'java', 'c++', 'c#', 'ruby', 'rails', 'go', 'golang', 'rust',
-      'swift', 'kotlin', 'scala', 'r', 'matlab', 'tableau', 'power bi', 'excel', 'jira', 'confluence',
-      'slack', 'teams', 'zoom', 'figma', 'sketch', 'photoshop', 'illustrator', 'linux', 'unix', 'bash',
-      'shell', 'powershell', 'windows', 'macos', 'ios', 'android', 'mobile', 'responsive', 'ui', 'ux',
-      'user experience', 'user interface', 'design', 'wireframe', 'prototype', 'mockup'
-    ];
-
-    const jobKeywords = commonTechKeywords.filter(keyword => {
-      // Check for exact matches and variations
-      return jobText.includes(keyword) || 
-             jobText.includes(keyword.replace('.', '')) ||
-             jobText.includes(keyword.replace('-', '')) ||
-             jobText.includes(keyword.replace('/', '')) ||
-             jobText.includes(keyword.replace(' ', ''));
-    });
-
-    // Remove duplicates and variations
-    const uniqueJobKeywords = [...new Set(jobKeywords)];
-
-    // Analyze resume skills against job requirements with context
-    const resumeSkills = resumeData.skills.map(s => s.name.toLowerCase());
-    const resumeExperience = resumeData.workExperience.map(exp => exp.description.toLowerCase()).join(' ');
-
-    const matchedSkills = resumeSkills.filter(skill => 
-      uniqueJobKeywords.some(keyword => {
-        const skillNormalized = skill.replace(/[.\s\-\/]/g, '');
-        const keywordNormalized = keyword.replace(/[.\s\-\/]/g, '');
-
-        // Check if skill matches keyword or if it's mentioned in experience
-        const directMatch = skillNormalized.includes(keywordNormalized) || 
-                           keywordNormalized.includes(skillNormalized) ||
-                           skill.toLowerCase() === keyword.toLowerCase();
-
-        const experienceMatch = resumeExperience.includes(skill) && 
-                               resumeExperience.includes(keyword);
-
-        return directMatch || experienceMatch;
-      })
-    );
-
-    // Find missing critical skills
-    const criticalSkills = uniqueJobKeywords.filter(keyword => 
-      !resumeSkills.some(skill => {
-        if (!skill) return false;
-        const skillNormalized = skill.replace(/[.\s\-\/]/g, '').toLowerCase();
-        const keywordNormalized = keyword.replace(/[.\s\-\/]/g, '').toLowerCase();
-        return skillNormalized.includes(keywordNormalized) || 
-               keywordNormalized.includes(skillNormalized);
-      })
-    );
-
-    // Calculate years of experience match
-    const currentYear = new Date().getFullYear();
-    const totalExperience = resumeData.workExperience?.reduce((total, exp) => {
-      if (!exp) return total;
-      const startYear = exp.startDate ? new Date(exp.startDate + '-01').getFullYear() : currentYear;
-      const endYear = exp.isCurrentJob ? currentYear : 
-                     exp.endDate ? new Date(exp.endDate + '-01').getFullYear() : currentYear;
-      return total + Math.max(0, endYear - startYear);
-    }, 0) || 0;
-
-    // Check if experience level matches job requirements
-    const jobTextLower = jobDescription.toLowerCase();
-    let requiredExperience = 0;
-    const expMatch = jobTextLower.match(/(\d+)[\s\-+]*(?:years?|yrs?)[\s\w]*(?:experience|exp)/i);
-    if (expMatch) requiredExperience = parseInt(expMatch[1]);
-
-    const experienceMatch = totalExperience >= requiredExperience * 0.8; // 80% match threshold
-
-    const matchedKeywords = uniqueJobKeywords.filter(keyword => 
-      resumeText.includes(keyword) || 
-      resumeText.includes(keyword.replace(/[.\s\-\/]/g, ''))
-    );
-
-    const missingKeywords = uniqueJobKeywords.filter(keyword => 
-      !resumeText.includes(keyword) && 
-      !resumeText.includes(keyword.replace(/[.\s\-\/]/g, ''))
-    );
-
-    // Calculate comprehensive scores
-    const skillMatchRate = matchedSkills.length / Math.max(uniqueJobKeywords.length, 1);
-    const keywordMatchRate = matchedKeywords.length / Math.max(uniqueJobKeywords.length, 1);
-    const experienceScore = experienceMatch ? 1 : Math.min(totalExperience / Math.max(requiredExperience, 1), 1);
-
-    // Weight the scoring: 40% skills, 30% keywords, 20% experience, 10% completeness
-    const completenessScore = Math.min(
-      (resumeData.workExperience.length * 0.3 + 
-       resumeData.education.length * 0.2 + 
-       resumeData.skills.length * 0.3 + 
-       (resumeData.personalInfo.summary ? 0.2 : 0)) / 1.0, 1
-    );
-
-    const overallScore = Math.round(
-      (skillMatchRate * 0.4 + 
-       keywordMatchRate * 0.3 + 
-       experienceScore * 0.2 + 
-       completenessScore * 0.1) * 100
-    );
-
-    // Calculate ATS score
-    const atsScore = Math.round(
-      (matchedKeywords.length / Math.max(uniqueJobKeywords.length, 1)) * 100
-    );
-
-    // Determine competitiveness
-    let competitiveness: 'low' | 'medium' | 'high' = 'low';
-    if (overallScore >= 75) competitiveness = 'high';
-    else if (overallScore >= 50) competitiveness = 'medium';
-
-    // Generate suggestions
-    const suggestions: MatchSuggestion[] = [];
-
-    if (criticalSkills.length > 0) {
-      suggestions.push({
-        id: '1',
-        type: 'skill',
-        title: 'Add Missing Technical Skills',
-        description: `Include ${criticalSkills.slice(0, 3).join(', ')} to better match job requirements`,
-        priority: 'high',
-        impact: 'Increases match score by 15-25%'
+    try {
+      const response = await fetch('/api/job-match', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          resumeData, 
+          jobDescription: `${jobTitle}\n\nCompany: ${companyName}\n\n${jobDescription}` 
+        }),
       });
+
+      if (response.ok) {
+        const result = await response.json();
+        setMatchResult(result);
+        
+        // Save this job analysis
+        setSavedJobs(prev => [
+          { title: jobTitle, company: companyName, score: result.compatibilityScore },
+          ...prev.slice(0, 4) // Keep only last 5
+        ]);
+      } else {
+        // Fallback analysis
+        setMatchResult(getFallbackAnalysis());
+      }
+    } catch (error) {
+      console.error('Job match analysis failed:', error);
+      setMatchResult(getFallbackAnalysis());
     }
-
-    if (missingKeywords.length > 0) {
-      suggestions.push({
-        id: '2',
-        type: 'keyword',
-        title: 'Optimize Keyword Usage',
-        description: 'Incorporate more job-specific keywords throughout your resume',
-        priority: 'high',
-        impact: 'Improves ATS compatibility by 30%'
-      });
-    }
-
-    suggestions.push({
-      id: '3',
-      type: 'experience',
-      title: 'Tailor Experience Descriptions',
-      description: 'Rewrite experience bullets to highlight relevant achievements',
-      priority: 'medium',
-      impact: 'Enhances relevance by 20%'
-    });
-
-    suggestions.push({
-      id: '4',
-      type: 'format',
-      title: 'Adjust Resume Structure',
-      description: 'Reorganize sections to emphasize most relevant qualifications first',
-      priority: 'medium',
-      impact: 'Improves readability and focus'
-    });
-
-    setMatchResult({
-      score: overallScore,
-      matchedSkills: matchedSkills.map(skill => 
-        resumeData.skills.find(s => s.name.toLowerCase() === skill)?.name || skill
-      ),
-      missingSkills: criticalSkills.slice(0, 8),
-      matchedKeywords: matchedKeywords.slice(0, 10),
-      missingKeywords: missingKeywords.slice(0, 8),
-      suggestions,
-      keywordDensity: uniqueJobKeywords.reduce((acc, keyword) => {
-        acc[keyword] = Math.random() * 5 + 1;
-        return acc;
-      }, {} as { [key: string]: number }),
-      atsScore,
-      competitiveness
-    });
-
-    // Save job for comparison
-    setSavedJobs(prev => [
-      { title: jobTitle, company: companyName || 'Unknown Company', score: overallScore },
-      ...prev.slice(0, 4)
-    ]);
 
     setIsAnalyzing(false);
   };
 
-  const optimizeForJob = () => {
-    if (!matchResult) return;
-
-    const optimizations = {
-      type: 'job-optimization',
-      addSkills: matchResult.missingSkills.slice(0, 5),
-      addKeywords: matchResult.missingKeywords.slice(0, 5),
-      enhanceSummary: `Optimize summary for ${jobTitle} role at ${companyName}`,
-      jobTitle,
-      companyName
+  const getFallbackAnalysis = (): AIJobMatchResult => {
+    return {
+      compatibilityScore: 35,
+      verdict: 'REJECT',
+      harshFeedback: "Your resume is not competitive for this role. The gap between your skills and the job requirements is significant.",
+      criticalGaps: [
+        {
+          category: 'SKILLS',
+          gap: 'Required technologies missing',
+          severity: 'DEALBREAKER',
+          harshComment: 'You lack the fundamental technical skills this role demands.'
+        }
+      ],
+      strengths: [
+        {
+          point: 'Basic qualifications present',
+          relevance: 'LOW'
+        }
+      ],
+      redFlags: ['Skill gaps', 'Experience misalignment'],
+      improvements: [
+        {
+          action: 'Learn required technologies',
+          timeframe: '6-12 months',
+          difficulty: 'HARD',
+          honestAssessment: 'This will require significant effort and time investment.'
+        }
+      ],
+      competitionAnalysis: {
+        candidateLevel: 'JUNIOR',
+        jobLevel: 'MID',
+        realityCheck: 'You are competing against more qualified candidates.'
+      },
+      salaryReality: {
+        theirWorth: 'Entry level',
+        jobExpectation: 'Mid-senior level',
+        gap: 'Significant mismatch'
+      }
     };
-
-    onOptimize(optimizations);
   };
 
-  const clearAnalysis = () => {
-    setMatchResult(null);
-    setJobTitle('');
-    setJobDescription('');
-    setCompanyName('');
+  const getVerdictIcon = (verdict: string) => {
+    switch (verdict) {
+      case 'STRONG_MATCH':
+        return <CheckCircle className="h-6 w-6 text-green-500" />;
+      case 'INTERVIEW':
+        return <Eye className="h-6 w-6 text-blue-500" />;
+      case 'MAYBE':
+        return <AlertTriangle className="h-6 w-6 text-yellow-500" />;
+      case 'REJECT':
+        return <Skull className="h-6 w-6 text-red-500" />;
+      default:
+        return <AlertCircle className="h-6 w-6 text-gray-500" />;
+    }
+  };
+
+  const getVerdictColor = (verdict: string) => {
+    switch (verdict) {
+      case 'STRONG_MATCH':
+        return 'border-emerald-200';
+      case 'INTERVIEW':
+        return 'border-blue-200';
+      case 'MAYBE':
+        return 'border-amber-200';
+      case 'REJECT':
+        return 'border-red-200';
+      default:
+        return 'border-gray-200';
+    }
+  };
+
+  const getVerdictGradient = (verdict: string) => {
+    switch (verdict) {
+      case 'STRONG_MATCH':
+        return 'linear-gradient(135deg, rgba(5, 150, 105, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%)';
+      case 'INTERVIEW':
+        return 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 197, 253, 0.05) 100%)';
+      case 'MAYBE':
+        return 'linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%)';
+      case 'REJECT':
+        return 'linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(248, 113, 113, 0.05) 100%)';
+      default:
+        return 'linear-gradient(135deg, rgba(107, 114, 128, 0.05) 0%, rgba(156, 163, 175, 0.05) 100%)';
+    }
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 75) return 'score-excellent';
-    if (score >= 50) return 'score-good';
-    if (score >= 25) return 'score-fair';
-    return 'score-poor';
+    if (score >= 80) return 'text-emerald-600 bg-emerald-50 border-emerald-200';
+    if (score >= 60) return 'text-blue-600 bg-blue-50 border-blue-200';
+    if (score >= 40) return 'text-amber-600 bg-amber-50 border-amber-200';
+    return 'text-red-600 bg-red-50 border-red-200';
   };
 
-  const getScoreLabel = (score: number) => {
-    if (score >= 75) return 'Excellent Match';
-    if (score >= 50) return 'Good Match';
-    if (score >= 25) return 'Fair Match';
-    return 'Poor Match';
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case 'DEALBREAKER':
+        return 'bg-red-100 text-red-800 border-red-200';
+      case 'CRITICAL':
+        return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'MAJOR':
+        return 'bg-amber-100 text-amber-800 border-amber-200';
+      case 'MINOR':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
   };
 
-  const getCompetitivenessColor = (level: string) => {
-    switch (level) {
-      case 'high': return 'status-success';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'low': return 'status-error';
-      default: return 'bg-slate-100 text-slate-800 border-slate-200';
+  const getDifficultyIcon = (difficulty: string) => {
+    switch (difficulty) {
+      case 'EASY':
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'HARD':
+        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'NEARLY_IMPOSSIBLE':
+        return <X className="h-4 w-4 text-red-500" />;
+      default:
+        return <AlertCircle className="h-4 w-4 text-gray-500" />;
     }
   };
 
   return (
-    <Card className="border-blue-200" style={{ background: 'linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(8, 145, 178, 0.05) 100%)' }}>
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-2 icon-primary">
-          <Target className="h-5 w-5" />
-          <span>Job Match Analyzer</span>
-          {matchResult && (
-            <Badge variant="secondary" className="ml-2">
-              {matchResult.score}% match
-            </Badge>
-          )}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-6">
-          {/* Job Input Form */}
-          {!matchResult && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="job-title" className="form-label">Job Title *</Label>
-                  <Input
-                    id="job-title"
-                    value={jobTitle}
-                    onChange={(e) => setJobTitle(e.target.value)}
-                    placeholder="e.g., Senior Software Engineer"
-                    className="form-input"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="company-name" className="form-label">Company Name</Label>
-                  <Input
-                    id="company-name"
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
-                    placeholder="e.g., Google"
-                    className="form-input"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="job-description" className="form-label">Job Description *</Label>
-                <Textarea
-                  id="job-description"
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
-                  placeholder="Paste the complete job description here..."
-                  rows={6}
-                  className="form-textarea"
-                />
-                <p className="text-xs mt-1" style={{ color: 'var(--figma-neutral-500)' }}>
-                  Include requirements, responsibilities, and preferred qualifications for best results
-                </p>
-              </div>
-
-              <Button
-                onClick={analyzeMatch}
-                disabled={isAnalyzing || !jobTitle.trim() || !jobDescription.trim()}
-                className="w-full btn-primary"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <div className="loading-spinner h-4 w-4 mr-2" />
-                    Analyzing Job Match...
-                  </>
-                ) : (
-                  <>
-                    <Search className="h-4 w-4 mr-2" />
-                    Analyze Job Match
-                  </>
-                )}
-              </Button>
+    <div className="space-y-6">
+      <Card className="ai-gradient rounded-2xl border-0 shadow-lg">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center space-x-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600">
+              <Target className="h-5 w-5 text-white" />
             </div>
-          )}
+            <div>
+              <span className="text-lg font-semibold text-gray-900">AI Job Match Analyzer</span>
+              {matchResult && (
+                <Badge variant="secondary" className="ml-3 bg-purple-100 text-purple-700">
+                  {matchResult.compatibilityScore}% Match
+                </Badge>
+              )}
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="jobTitle">Job Title</Label>
+              <Input
+                id="jobTitle"
+                placeholder="e.g., Senior React Developer"
+                value={jobTitle}
+                onChange={(e) => setJobTitle(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="companyName">Company Name (Optional)</Label>
+              <Input
+                id="companyName"
+                placeholder="e.g., Google, Microsoft"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="jobDescription">Job Description</Label>
+            <Textarea
+              id="jobDescription"
+              placeholder="Paste the complete job description here..."
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              rows={8}
+            />
+          </div>
 
-          {/* Analysis Results */}
-          {matchResult && (
-            <div className="space-y-6">
-              {/* Header with Clear Button */}
-              <div className="flex items-center justify-between">
+          <Button 
+            onClick={analyzeMatch} 
+            disabled={!jobTitle.trim() || !jobDescription.trim() || isAnalyzing}
+            className="w-full btn-primary text-base px-8 py-3"
+          >
+            {isAnalyzing ? (
+              <>
+                <Brain className="h-4 w-4 mr-2 animate-spin" />
+                AI is analyzing your chances...
+              </>
+            ) : (
+              <>
+                <Search className="h-4 w-4 mr-2" />
+                Analyze Job Match
+              </>
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Saved Jobs */}
+      {savedJobs.length > 0 && (
+        <Card className="rounded-2xl border border-gray-100 shadow-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center space-x-3">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-blue-100 to-indigo-100">
+                <Briefcase className="h-5 w-5 text-blue-600" />
+              </div>
+              <span className="text-lg font-semibold text-gray-900">Recent Analyses</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {savedJobs.map((job, index) => (
+                <div key={index} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl border border-gray-100">
+                  <div>
+                    <div className="font-medium text-gray-900">{job.title}</div>
+                    {job.company && <div className="text-sm text-gray-600">{job.company}</div>}
+                  </div>
+                  <Badge className={`px-3 py-1 rounded-full font-semibold ${getScoreColor(job.score)}`} variant="outline">
+                    {job.score}%
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Match Results */}
+      {matchResult && (
+        <div className="space-y-6">
+          {/* Overall Verdict */}
+          <Card className={`border-2 rounded-2xl shadow-lg ${getVerdictColor(matchResult.verdict)}`} style={{ background: getVerdictGradient(matchResult.verdict) }}>
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center space-x-4">
+                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-sm">
+                  {getVerdictIcon(matchResult.verdict)}
+                </div>
                 <div>
-                  <h3 className="text-lg font-semibold" style={{ color: 'var(--figma-neutral-800)' }}>
-                    {jobTitle} {companyName && `at ${companyName}`}
-                  </h3>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={clearAnalysis}
-                  style={{ color: 'var(--figma-neutral-500)' }}
-                  className="hover:bg-red-50"
-                >
-                  <X className="h-4 w-4 mr-1" />
-                  Clear
-                </Button>
-              </div>
-
-              {/* Overall Match Score */}
-              <div className="bg-white rounded-lg border p-6 text-center">
-                <div className={`text-4xl font-bold mb-2 ${getScoreColor(matchResult.score)}`}>
-                  {matchResult.score}%
-                </div>
-                <p className="text-lg font-medium mb-1" style={{ color: 'var(--figma-neutral-700)' }}>Job Match Score</p>
-                <p className="text-sm mb-4" style={{ color: 'var(--figma-neutral-500)' }}>{getScoreLabel(matchResult.score)}</p>
-                <Progress value={matchResult.score} className="h-3" />
-
-                <div className="grid grid-cols-2 gap-4 mt-4 pt-4" style={{ borderTop: '1px solid var(--figma-neutral-200)' }}>
-                  <div>
-                    <div className={`text-2xl font-bold ${getScoreColor(matchResult.atsScore)}`}>
-                      {matchResult.atsScore}%
-                    </div>
-                    <p className="text-sm" style={{ color: 'var(--figma-neutral-600)' }}>ATS Score</p>
+                  <div className="text-2xl font-bold text-gray-900">
+                    Verdict: {matchResult.verdict.replace('_', ' ')}
                   </div>
-                  <div>
-                    <Badge variant="outline" className={getCompetitivenessColor(matchResult.competitiveness)}>
-                      {matchResult.competitiveness} competitiveness
-                    </Badge>
+                  <div className={`text-4xl font-bold ${getScoreColor(matchResult.compatibilityScore)}`}>
+                    {matchResult.compatibilityScore}%
                   </div>
                 </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <Progress 
+                  value={matchResult.compatibilityScore} 
+                  className="h-4"
+                />
+                <div className="p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-white/40">
+                  <h4 className="font-semibold mb-2 flex items-center gap-2 text-gray-900">
+                    <ThumbsDown className="h-4 w-4" />
+                    Harsh Reality Check
+                  </h4>
+                  <p className="text-sm text-gray-700">{matchResult.harshFeedback}</p>
+                </div>
               </div>
+            </CardContent>
+          </Card>
 
-              {/* Skills Analysis */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Matched Skills */}
-                {matchResult.matchedSkills.length > 0 && (
-                  <div className="bg-white rounded-lg border p-4">
-                    <div className="flex items-center space-x-2 mb-3">
-                      <CheckCircle className="h-5 w-5 icon-success" />
-                      <h3 className="font-semibold" style={{ color: 'var(--figma-neutral-800)' }}>Matched Skills ({matchResult.matchedSkills.length})</h3>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {matchResult.matchedSkills.map((skill, index) => (
-                        <Badge key={index} className="status-success">
-                          <CheckCircle className="h-3 w-3 mr-1" />
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
+          {/* Critical Gaps */}
+          {matchResult.criticalGaps.length > 0 && (
+            <Card className="rounded-2xl border border-red-100 shadow-sm" style={{ background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(248, 113, 113, 0.05) 100%)' }}>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center space-x-3">
+                  <div className="p-2 rounded-xl bg-gradient-to-br from-red-100 to-orange-100">
+                    <AlertTriangle className="h-5 w-5 text-red-600" />
                   </div>
-                )}
-
-                {/* Missing Skills */}
-                {matchResult.missingSkills.length > 0 && (
-                  <div className="bg-white rounded-lg border p-4">
-                    <div className="flex items-center space-x-2 mb-3">
-                      <AlertTriangle className="h-5 w-5 icon-warning" />
-                      <h3 className="font-semibold" style={{ color: 'var(--figma-neutral-800)' }}>Missing Skills ({matchResult.missingSkills.length})</h3>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {matchResult.missingSkills.map((skill, index) => (
-                        <Badge key={index} variant="outline" className="border-orange-300 text-orange-700 hover:bg-orange-50">
-                          <Plus className="h-3 w-3 mr-1" />
-                          {skill}
+                  <span className="text-lg font-semibold text-red-600">Critical Gaps</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {matchResult.criticalGaps.map((gap, index) => (
+                    <div key={index} className="bg-white rounded-xl p-4 border border-red-100 shadow-sm">
+                      <div className="flex items-center justify-between mb-3">
+                        <Badge className={`px-3 py-1 rounded-full font-semibold ${getSeverityColor(gap.severity)}`}>
+                          {gap.severity}
                         </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Keywords Analysis */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Matched Keywords */}
-                {matchResult.matchedKeywords.length > 0 && (
-                  <div className="bg-white rounded-lg border p-4">
-                    <div className="flex items-center space-x-2 mb-3">
-                      <Eye className="h-5 w-5 icon-primary" />
-                      <h3 className="font-semibold" style={{ color: 'var(--figma-neutral-800)' }}>Found Keywords ({matchResult.matchedKeywords.length})</h3>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {matchResult.matchedKeywords.map((keyword, index) => (
-                        <Badge key={index} variant="secondary" className="status-info">
-                          {keyword}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Missing Keywords */}
-                {matchResult.missingKeywords.length > 0 && (
-                  <div className="bg-white rounded-lg border p-4">
-                    <div className="flex items-center space-x-2 mb-3">
-                      <Zap className="h-5 w-5 icon-accent" />
-                      <h3 className="font-semibold" style={{ color: 'var(--figma-neutral-800)' }}>Add Keywords ({matchResult.missingKeywords.length})</h3>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {matchResult.missingKeywords.map((keyword, index) => (
-                        <Badge key={index} variant="outline" className="border-purple-300 text-purple-700 hover:bg-purple-50">
-                          <Plus className="h-3 w-3 mr-1" />
-                          {keyword}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Optimization Suggestions */}
-              <div className="bg-white rounded-lg border p-4">
-                <h3 className="font-semibold mb-4 flex items-center" style={{ color: 'var(--figma-neutral-800)' }}>
-                  <Brain className="h-5 w-5 icon-secondary mr-2" />
-                  Optimization Suggestions
-                </h3>
-                <div className="space-y-3">
-                  {matchResult.suggestions.map((suggestion) => (
-                    <div key={suggestion.id} className="flex items-start space-x-3 p-3 rounded-lg" style={{ backgroundColor: 'var(--figma-neutral-50)' }}>
-                      <TrendingUp className="h-4 w-4 icon-secondary mt-0.5" />
-                      <div className="flex-1">
-                        <h4 className="font-medium text-sm" style={{ color: 'var(--figma-neutral-800)' }}>{suggestion.title}</h4>
-                        <p className="text-xs mt-1" style={{ color: 'var(--figma-neutral-600)' }}>{suggestion.description}</p>
-                        <div className="flex items-center space-x-2 mt-2">
-                          <Badge variant="outline" className="text-xs">
-                            {suggestion.priority} priority
-                          </Badge>
-                          <span className="text-xs" style={{ color: 'var(--figma-neutral-500)' }}>{suggestion.impact}</span>
-                        </div>
+                        <Badge variant="outline" className="rounded-full">{gap.category}</Badge>
                       </div>
+                      <h4 className="font-semibold mb-2 text-gray-900">{gap.gap}</h4>
+                      <p className="text-sm text-gray-600">{gap.harshComment}</p>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  onClick={optimizeForJob}
-                  className="btn-primary flex-1"
-                >
-                  <Briefcase className="h-4 w-4 mr-2" />
-                  Optimize Resume for This Job
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={clearAnalysis}
-                  className="btn-outline"
-                >
-                  Analyze Another Job
-                </Button>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           )}
 
-          {/* Saved Job Comparisons */}
-          {savedJobs.length > 0 && (
-            <div className="bg-white rounded-lg border p-4">
-              <h3 className="font-semibold mb-3 flex items-center" style={{ color: 'var(--figma-neutral-800)' }}>
-                <BarChart3 className="h-5 w-5 mr-2" style={{ color: 'var(--figma-neutral-600)' }} />
-                Recent Job Matches
-              </h3>
-              <div className="space-y-2">
-                {savedJobs.map((job, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: 'var(--figma-neutral-50)' }}>
-                    <div>
-                      <p className="font-medium text-sm" style={{ color: 'var(--figma-neutral-800)' }}>{job.title}</p>
-                      <p className="text-xs" style={{ color: 'var(--figma-neutral-600)' }}>{job.company}</p>
-                    </div>
-                    <div className={`font-bold ${getScoreColor(job.score)}`}>
-                      {job.score}%
-                    </div>
+          {/* Strengths */}
+          {matchResult.strengths.length > 0 && (
+            <Card className="rounded-2xl border border-emerald-100 shadow-sm" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%)' }}>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center space-x-3">
+                  <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-100 to-green-100">
+                    <CheckCircle className="h-5 w-5 text-emerald-600" />
                   </div>
-                ))}
-              </div>
-            </div>
+                  <span className="text-lg font-semibold text-emerald-600">Your Strengths</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {matchResult.strengths.map((strength, index) => (
+                    <div key={index} className="flex items-center justify-between p-4 bg-white rounded-xl border border-emerald-100 shadow-sm">
+                      <span className="text-sm text-gray-700 font-medium">{strength.point}</span>
+                      <Badge 
+                        variant={strength.relevance === 'HIGH' ? 'default' : 'secondary'}
+                        className={`px-3 py-1 rounded-full font-semibold ${
+                          strength.relevance === 'HIGH' ? 'bg-emerald-100 text-emerald-700' : 
+                          strength.relevance === 'MEDIUM' ? 'bg-blue-100 text-blue-700' : 
+                          'bg-gray-100 text-gray-700'
+                        }`}
+                      >
+                        {strength.relevance}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           )}
+
+          {/* Red Flags */}
+          {matchResult.redFlags.length > 0 && (
+            <Card className="rounded-2xl border border-red-100 shadow-sm" style={{ background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(248, 113, 113, 0.05) 100%)' }}>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center space-x-3">
+                  <div className="p-2 rounded-xl bg-gradient-to-br from-red-100 to-pink-100">
+                    <Skull className="h-5 w-5 text-red-600" />
+                  </div>
+                  <span className="text-lg font-semibold text-red-600">Red Flags</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {matchResult.redFlags.map((flag, index) => (
+                    <div key={index} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-red-100 shadow-sm">
+                      <div className="p-1 rounded-lg bg-red-100">
+                        <AlertTriangle className="h-4 w-4 text-red-500" />
+                      </div>
+                      <span className="text-sm text-gray-700 font-medium">{flag}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Improvements */}
+          {matchResult.improvements.length > 0 && (
+            <Card className="rounded-2xl border border-blue-100 shadow-sm" style={{ background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 197, 253, 0.05) 100%)' }}>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center space-x-3">
+                  <div className="p-2 rounded-xl bg-gradient-to-br from-blue-100 to-indigo-100">
+                    <TrendingUp className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <span className="text-lg font-semibold text-blue-600">Honest Improvement Plan</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {matchResult.improvements.map((improvement, index) => (
+                    <div key={index} className="bg-white rounded-xl p-4 border border-blue-100 shadow-sm">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="p-1 rounded-lg bg-blue-100">
+                          {getDifficultyIcon(improvement.difficulty)}
+                        </div>
+                        <span className="font-semibold text-gray-900">{improvement.action}</span>
+                        <Badge variant="outline" className="rounded-full">{improvement.timeframe}</Badge>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-3">{improvement.honestAssessment}</p>
+                      <Badge className={`px-3 py-1 rounded-full font-semibold ${
+                        improvement.difficulty === 'EASY' ? 'bg-emerald-100 text-emerald-800' :
+                        improvement.difficulty === 'HARD' ? 'bg-amber-100 text-amber-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {improvement.difficulty.replace('_', ' ')}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Competition Analysis */}
+          <Card className="rounded-2xl border border-purple-100 shadow-sm" style={{ background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(196, 181, 253, 0.05) 100%)' }}>
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center space-x-3">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-purple-100 to-indigo-100">
+                  <BarChart3 className="h-5 w-5 text-purple-600" />
+                </div>
+                <span className="text-lg font-semibold text-purple-600">Competition Analysis</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-4 bg-white rounded-xl border border-purple-100 shadow-sm">
+                    <div className="text-sm text-gray-600 mb-1">Your Level</div>
+                    <div className="font-bold text-lg text-purple-600">{matchResult.competitionAnalysis.candidateLevel}</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-xl border border-purple-100 shadow-sm">
+                    <div className="text-sm text-gray-600 mb-1">Job Level</div>
+                    <div className="font-bold text-lg text-purple-600">{matchResult.competitionAnalysis.jobLevel}</div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white rounded-xl border border-purple-100 shadow-sm">
+                  <p className="text-sm text-gray-700">{matchResult.competitionAnalysis.realityCheck}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Salary Reality */}
+          <Card className="rounded-2xl border border-amber-100 shadow-sm" style={{ background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%)' }}>
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center space-x-3">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-amber-100 to-yellow-100">
+                  <Zap className="h-5 w-5 text-amber-600" />
+                </div>
+                <span className="text-lg font-semibold text-amber-600">Salary Reality Check</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-3 bg-white rounded-xl border border-amber-100 shadow-sm">
+                  <span className="text-sm text-gray-600 font-medium">Your Current Worth:</span>
+                  <Badge variant="outline" className="rounded-full">{matchResult.salaryReality.theirWorth}</Badge>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-white rounded-xl border border-amber-100 shadow-sm">
+                  <span className="text-sm text-gray-600 font-medium">Job Expectation:</span>
+                  <Badge variant="outline" className="rounded-full">{matchResult.salaryReality.jobExpectation}</Badge>
+                </div>
+                <div className="p-4 bg-white rounded-xl border border-amber-100 shadow-sm">
+                  <span className="text-sm font-medium text-amber-700">{matchResult.salaryReality.gap}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 }

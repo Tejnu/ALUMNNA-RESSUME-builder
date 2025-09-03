@@ -18,7 +18,7 @@ export function ClassicTemplate({ resumeData }: ClassicTemplateProps) {
 
   const { personalInfo, workExperience = [], education = [], skills = [], projects = [], certifications = [], languages = [] } = resumeData;
 
-  const formatDate = (dateStr: string) => {
+  const formatDate = (dateStr: string | undefined) => {
     if (!dateStr) return '';
     const [year, month] = dateStr.split('-');
     if (!year || !month) return dateStr;
@@ -125,9 +125,28 @@ export function ClassicTemplate({ resumeData }: ClassicTemplateProps) {
           </h2>
           {projects.map((project) => (
             <div key={project.id} className="mb-4 last:mb-0">
-              <h3 className="text-lg font-semibold">{project.name}</h3>
+              <h3 className="text-lg font-semibold">{project.title || project.name}</h3>
               {project.description && (
                 <p className="text-gray-800 mt-1">{project.description}</p>
+              )}
+              {project.technologies && project.technologies.length > 0 && (
+                <p className="text-sm text-gray-600 mt-1">
+                  <strong>Technologies:</strong> {project.technologies.join(', ')}
+                </p>
+              )}
+              {(project.url || project.link || project.github) && (
+                <div className="text-sm text-blue-600 mt-1">
+                  {(project.url || project.link) && (
+                    <a href={project.url || project.link} target="_blank" rel="noopener noreferrer" className="mr-3 hover:underline">
+                      View Project
+                    </a>
+                  )}
+                  {project.github && (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      GitHub
+                    </a>
+                  )}
+                </div>
               )}
             </div>
           ))}
@@ -275,7 +294,7 @@ export function ClassicTemplate({ resumeData }: ClassicTemplateProps) {
           <div className="space-y-4">
             {projects.map((project) => (
               <div key={project.id}>
-                <h4 className="font-semibold">{project.name}</h4>
+                <h4 className="font-semibold">{project.title || project.name}</h4>
                 <p className="text-gray-700 text-sm mt-1">{project.description}</p>
                 {project.technologies && project.technologies.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2">
@@ -284,6 +303,20 @@ export function ClassicTemplate({ resumeData }: ClassicTemplateProps) {
                         {tech}
                       </span>
                     ))}
+                  </div>
+                )}
+                {(project.url || project.link || project.github) && (
+                  <div className="text-sm text-purple-600 mt-2">
+                    {(project.url || project.link) && (
+                      <a href={project.url || project.link} target="_blank" rel="noopener noreferrer" className="mr-3 hover:underline">
+                        View Project
+                      </a>
+                    )}
+                    {project.github && (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                        GitHub
+                      </a>
+                    )}
                   </div>
                 )}
               </div>

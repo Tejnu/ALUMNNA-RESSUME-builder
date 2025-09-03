@@ -1,0 +1,153 @@
+/* PDF-specific optimizations */
+@media print {
+  @page {
+    margin: 0.5in;
+    size: letter portrait;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    color: #000000 !important;
+    background: white !important;
+  }
+
+  /* Ensure text is selectable for ATS */
+  h1, h2, h3, h4, h5, h6, p, span, div, li {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+  }
+
+  /* Fix gradients for PDF */
+  .bg-gradient-to-r,
+  .bg-gradient-to-br,
+  .bg-gradient-to-l,
+  .bg-gradient-to-t,
+  .bg-gradient-to-b,
+  [class*="gradient"] {
+    background: #6366f1 !important;
+    background-image: none !important;
+    color: white !important;
+  }
+
+  /* Fix transparent text */
+  .text-transparent {
+    color: #6366f1 !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+  }
+
+  /* Ensure links are visible */
+  a {
+    color: #2563eb !important;
+    text-decoration: underline !important;
+  }
+
+  /* Page break controls */
+  .page-break-before {
+    page-break-before: always !important;
+  }
+
+  .page-break-after {
+    page-break-after: always !important;
+  }
+
+  .avoid-break,
+  section,
+  .section {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Hide non-essential elements */
+  .no-print,
+  button,
+  [role="button"] {
+    display: none !important;
+  }
+
+  /* Ensure consistent spacing */
+  .space-y-1 > * + * { margin-top: 0.25rem !important; }
+  .space-y-2 > * + * { margin-top: 0.5rem !important; }
+  .space-y-3 > * + * { margin-top: 0.75rem !important; }
+  .space-y-4 > * + * { margin-top: 1rem !important; }
+  .space-y-6 > * + * { margin-top: 1.5rem !important; }
+
+  /* Improve readability */
+  .text-xs { font-size: 9pt !important; }
+  .text-sm { font-size: 10pt !important; }
+  .text-base { font-size: 11pt !important; }
+  .text-lg { font-size: 12pt !important; }
+  .text-xl { font-size: 14pt !important; }
+  .text-2xl { font-size: 16pt !important; }
+  .text-3xl { font-size: 18pt !important; }
+
+  /* Ensure borders are visible */
+  .border {
+    border: 1px solid #d1d5db !important;
+  }
+
+  .border-b {
+    border-bottom: 1px solid #d1d5db !important;
+  }
+
+  .border-l-4 {
+    border-left: 4px solid #6366f1 !important;
+  }
+}
+
+/* PDF generation specific styles */
+.pdf-optimized {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  font-feature-settings: 'liga' off !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+.pdf-optimized * {
+  box-sizing: border-box !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+.pdf-optimized h1,
+.pdf-optimized h2,
+.pdf-optimized h3,
+.pdf-optimized h4,
+.pdf-optimized h5,
+.pdf-optimized h6 {
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  orphans: 2 !important;
+  widows: 2 !important;
+}
+
+.pdf-optimized p,
+.pdf-optimized li {
+  orphans: 2 !important;
+  widows: 2 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.pdf-optimized img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+.pdf-optimized table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+}
+
+.pdf-optimized th,
+.pdf-optimized td {
+  border: 1px solid #d1d5db !important;
+  padding: 0.5rem !important;
+  text-align: left !important;
+}

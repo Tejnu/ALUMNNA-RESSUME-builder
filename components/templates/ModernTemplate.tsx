@@ -104,9 +104,32 @@ export function ModernTemplate({ resumeData }: ModernTemplateProps) {
                 <div className="space-y-4">
                   {projects.map((project, index) => (
                     <div key={project.id} className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-lg border border-purple-100 transition-all duration-300 hover:shadow-md hover:scale-[1.02]" style={{ animationDelay: `${index * 50}ms` }}>
-                      <h3 className="text-lg font-semibold text-gray-800 mb-2">{project.name}</h3>
+                      <h3 className="text-lg font-semibold text-gray-800 mb-2">{project.title || project.name}</h3>
                       {project.description && (
-                        <p className="text-gray-700">{project.description}</p>
+                        <p className="text-gray-700 mb-3">{project.description}</p>
+                      )}
+                      {project.technologies && project.technologies.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-2">
+                          {project.technologies.map((tech, techIndex) => (
+                            <span key={techIndex} className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {(project.url || project.link || project.github) && (
+                        <div className="flex gap-2 text-sm">
+                          {(project.url || project.link) && (
+                            <a href={project.url || project.link} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800">
+                              View Project
+                            </a>
+                          )}
+                          {project.github && (
+                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800">
+                              GitHub
+                            </a>
+                          )}
+                        </div>
                       )}
                     </div>
                   ))}

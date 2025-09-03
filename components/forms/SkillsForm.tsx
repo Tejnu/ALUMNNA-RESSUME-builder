@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skill } from '@/types/resume';
-import { Plus, X, Code } from 'lucide-react';
+import { Plus, X, Code, Target } from 'lucide-react';
 import { SmartSuggestions } from '@/components/SmartSuggestions';
 
 interface SkillsFormProps {
@@ -18,7 +18,7 @@ interface SkillsFormProps {
 
 export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
   const [newSkillName, setNewSkillName] = useState('');
-  const [newSkillLevel, setNewSkillLevel] = useState<Skill['level']>('Intermediate');
+  const [newSkillLevel, setNewSkillLevel] = useState<Skill['level']>('intermediate');
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const addSkill = () => {
@@ -28,11 +28,12 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
       id: Date.now().toString(),
       name: newSkillName.trim(),
       level: newSkillLevel,
+      category: 'Technical', // Default category
     };
 
     onUpdate([...skills, newSkill]);
     setNewSkillName('');
-    setNewSkillLevel('Intermediate');
+    setNewSkillLevel('intermediate');
   };
 
   const removeSkill = (id: string) => {
@@ -60,7 +61,8 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
     const newSkill: Skill = {
       id: Date.now().toString(),
       name: suggestion,
-      level: 'Intermediate',
+      level: 'intermediate',
+      category: 'Technical', // Default category
     };
     onUpdate([...skills, newSkill]);
     setShowSuggestions(false);
@@ -68,10 +70,10 @@ export function SkillsForm({ skills, onUpdate }: SkillsFormProps) {
 
   const getLevelColor = (level: Skill['level']) => {
     switch (level) {
-      case 'Beginner': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Intermediate': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'Advanced': return 'bg-green-100 text-green-800 border-green-200';
-      case 'Expert': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'beginner': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'intermediate': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'advanced': return 'bg-green-100 text-green-800 border-green-200';
+      case 'expert': return 'bg-purple-100 text-purple-800 border-purple-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };

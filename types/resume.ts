@@ -18,16 +18,19 @@ export interface WorkExperience {
   startDate: string;
   endDate?: string;
   current: boolean;
+  isCurrentJob?: boolean;
   description: string;
 }
 
 export interface Education {
   id: string;
   institution: string;
+  school?: string;
   degree: string;
   field: string;
   startDate: string;
   endDate?: string;
+  graduationDate?: string;
   current: boolean;
   gpa?: string;
 }
@@ -42,9 +45,11 @@ export interface Skill {
 export interface Project {
   id: string;
   title: string;
+  name?: string;
   description: string;
   technologies: string[];
   link?: string;
+  url?: string;
   github?: string;
   startDate?: string;
   endDate?: string;
@@ -55,13 +60,19 @@ export interface Certification {
   name: string;
   issuer: string;
   date: string;
+  dateObtained?: string;
   expiryDate?: string;
+  expirationDate?: string;
+  credentialId?: string;
   link?: string;
+  url?: string;
+  description?: string;
 }
 
 export interface Language {
   id: string;
   name: string;
+  language?: string;
   proficiency: 'basic' | 'conversational' | 'proficient' | 'fluent' | 'native';
 }
 
@@ -79,7 +90,9 @@ export interface ResumeData {
   projects: Project[];
   certifications: Certification[];
   languages: Language[];
+  references?: any[];
   customSections?: CustomSection[];
+  selectedTemplate: ResumeTemplate;
 }
 
 export type ResumeTemplate = 'modern' | 'classic' | 'minimal' | 'creative' | 'executive' | 'technical';

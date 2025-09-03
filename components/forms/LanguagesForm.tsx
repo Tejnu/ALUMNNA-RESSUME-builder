@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Globe as Languages } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -18,7 +18,7 @@ export function LanguagesForm({ languages, onUpdate }: LanguagesFormProps) {
     const newLanguage: Language = {
       id: Date.now().toString(),
       name: '',
-      proficiency: 'Intermediate'
+      proficiency: 'conversational'
     };
     onUpdate([...languages, newLanguage]);
   };

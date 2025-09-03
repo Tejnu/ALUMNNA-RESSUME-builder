@@ -7,13 +7,12 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { ResumeData } from '@/types/resume';
 import { 
-  CheckCircle, 
+  CheckCircle,
   AlertTriangle, 
   XCircle, 
   TrendingUp, 
   Eye, 
   FileText,
-  Target,
   Zap,
   BarChart3,
   Shield,
@@ -23,7 +22,6 @@ import {
 
 interface ResumeAnalyzerProps {
   resumeData: ResumeData;
-  onApplyFix: (fix: any) => void;
 }
 
 interface AnalysisResult {
@@ -41,7 +39,6 @@ interface Issue {
   type: 'error' | 'warning' | 'info';
   title: string;
   description: string;
-  fix?: any;
   severity: 'critical' | 'high' | 'medium' | 'low';
 }
 
@@ -54,7 +51,7 @@ interface Suggestion {
   category: string;
 }
 
-export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) {
+export function ResumeAnalyzer({ resumeData }: ResumeAnalyzerProps) {
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'issues' | 'suggestions'>('overview');
@@ -62,9 +59,32 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
   const analyzeResume = async () => {
     setIsAnalyzing(true);
     
-    // Simulate comprehensive analysis
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    try {
+      const response = await fetch('/api/analyze-resume', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ resumeData }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setAnalysis(result);
+      } else {
+        // Fallback to basic analysis if API fails
+        setAnalysis(getBasicAnalysis());
+      }
+    } catch (error) {
+      console.error('Analysis failed:', error);
+      setAnalysis(getBasicAnalysis());
+    }
     
+    setIsAnalyzing(false);
+  };
+
+  const getBasicAnalysis = (): AnalysisResult => {
+    // Fallback analysis when API is not available
     const issues: Issue[] = [];
     const strengths: string[] = [];
     const suggestions: Suggestion[] = [];
@@ -80,7 +100,6 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
         type: 'error',
         title: 'Missing or Weak Professional Summary',
         description: 'A compelling 2-3 sentence summary helps recruiters understand your value proposition quickly',
-        fix: { type: 'add-summary' },
         severity: 'critical'
       });
       score -= 20;
@@ -128,7 +147,6 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
           type: 'warning',
           title: 'Missing Quantified Achievements',
           description: 'Add specific numbers, percentages, and metrics to demonstrate your impact',
-          fix: { type: 'enhance-experience' },
           severity: 'high'
         });
         score -= 15;
@@ -181,7 +199,6 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
         type: 'info',
         title: 'Missing Industry Keywords',
         description: 'Include relevant industry keywords to improve ATS compatibility',
-        fix: { type: 'add-keywords' },
         severity: 'medium'
       });
       atsCompatibility -= 25;
@@ -247,7 +264,7 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
     readabilityScore = Math.max(readabilityScore, 0);
     completenessScore = Math.max(completenessScore, 0);
 
-    setAnalysis({
+    return {
       score: Math.round(score),
       issues,
       strengths,
@@ -255,10 +272,12 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
       atsCompatibility: Math.round(atsCompatibility),
       readabilityScore: Math.round(readabilityScore),
       completenessScore: Math.round(completenessScore)
-    });
-    
-    setIsAnalyzing(false);
+    };
   };
+
+  useEffect(() => {
+    analyzeResume();
+  }, [resumeData]);
 
   const getScoreColor = (score: number) => {
     if (score >= 85) return 'score-excellent';
@@ -447,16 +466,6 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
                             </Badge>
                           </div>
                           <p className="text-sm mb-3" style={{ color: 'var(--figma-neutral-600)' }}>{issue.description}</p>
-                          {issue.fix && (
-                            <Button
-                              size="sm"
-                              onClick={() => onApplyFix(issue.fix)}
-                              className="btn-primary"
-                            >
-                              <Target className="h-3 w-3 mr-1" />
-                              Quick Fix
-                            </Button>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -482,14 +491,6 @@ export function ResumeAnalyzer({ resumeData, onApplyFix }: ResumeAnalyzerProps) 
                       </div>
                     </div>
                     <p className="text-sm mb-3" style={{ color: 'var(--figma-neutral-600)' }}>{suggestion.description}</p>
-                    <Button
-                      size="sm"
-                      onClick={() => onApplyFix(suggestion.action)}
-                      className="btn-success"
-                    >
-                      <CheckCircle className="h-3 w-3 mr-1" />
-                      Apply
-                    </Button>
                   </div>
                 ))}
               </div>

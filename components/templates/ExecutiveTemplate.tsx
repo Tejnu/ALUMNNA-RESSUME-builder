@@ -166,8 +166,27 @@ export function ExecutiveTemplate({ resumeData }: ExecutiveTemplateProps) {
               <div className="space-y-3">
                 {projects.map((project) => (
                   <div key={project.id}>
-                    <h3 className="font-semibold text-slate-800">{project.name}</h3>
-                    {project.description && <p className="text-slate-600 text-sm">{project.description}</p>}
+                    <h3 className="font-semibold text-slate-800">{project.title || project.name}</h3>
+                    {project.description && <p className="text-slate-600 text-sm mt-1">{project.description}</p>}
+                    {project.technologies && project.technologies.length > 0 && (
+                      <p className="text-xs text-slate-500 mt-1">
+                        <strong>Technologies:</strong> {project.technologies.join(', ')}
+                      </p>
+                    )}
+                    {(project.url || project.link || project.github) && (
+                      <div className="text-xs text-slate-600 mt-1">
+                        {(project.url || project.link) && (
+                          <a href={project.url || project.link} target="_blank" rel="noopener noreferrer" className="mr-3 hover:underline">
+                            View Project
+                          </a>
+                        )}
+                        {project.github && (
+                          <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                            GitHub
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

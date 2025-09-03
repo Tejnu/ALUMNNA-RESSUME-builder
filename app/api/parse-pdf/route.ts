@@ -105,9 +105,7 @@ async function extractTextFromPDF(buffer: Buffer): Promise<string> {
     const pdfParse = (await import('pdf-parse')).default;
     const result = await pdfParse(buffer, {
       max: 50, // Limit pages for faster processing
-      version: 'default',
-      normalizeWhitespace: true,
-      disableCombineTextItems: false
+      version: 'default'
     });
     
     if (result.text && result.text.length > 10) {

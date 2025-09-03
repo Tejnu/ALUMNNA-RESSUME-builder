@@ -4,8 +4,6 @@
 import { ResumeData } from '@/types/resume';
 import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react';
 
-import { ResumeData } from '@/types/resume';
-
 interface MinimalTemplateProps {
   resumeData: ResumeData;
 }
@@ -22,7 +20,7 @@ export function MinimalTemplate({ resumeData }: MinimalTemplateProps) {
 
   const { personalInfo, workExperience = [], education = [], skills = [], projects = [], certifications = [], languages = [] } = resumeData;
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | undefined) => {
     if (!dateString) return '';
     const date = new Date(dateString + '-01');
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
@@ -125,9 +123,28 @@ export function MinimalTemplate({ resumeData }: MinimalTemplateProps) {
           </h2>
           {projects.map((project) => (
             <div key={project.id} className="mb-4 last:mb-0">
-              <h3 className="font-medium text-sm">{project.name}</h3>
+              <h3 className="font-medium text-sm">{project.title || project.name}</h3>
               {project.description && (
                 <p className="text-sm text-gray-700 mt-1">{project.description}</p>
+              )}
+              {project.technologies && project.technologies.length > 0 && (
+                <p className="text-xs text-gray-500 mt-1">
+                  {project.technologies.join(' • ')}
+                </p>
+              )}
+              {(project.url || project.link || project.github) && (
+                <div className="text-xs text-gray-600 mt-1">
+                  {(project.url || project.link) && (
+                    <a href={project.url || project.link} target="_blank" rel="noopener noreferrer" className="mr-2 hover:underline">
+                      View
+                    </a>
+                  )}
+                  {project.github && (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      GitHub
+                    </a>
+                  )}
+                </div>
               )}
             </div>
           ))}
@@ -276,7 +293,7 @@ export function MinimalTemplate({ resumeData }: MinimalTemplateProps) {
               <div key={project.id}>
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <h3 className="text-xl font-medium text-gray-900">{project.name}</h3>
+                    <h3 className="text-xl font-medium text-gray-900">{project.title || project.name}</h3>
                     {project.description && (
                       <p className="text-gray-600 mt-2">{project.description}</p>
                     )}
@@ -285,8 +302,19 @@ export function MinimalTemplate({ resumeData }: MinimalTemplateProps) {
                         {project.technologies.join(' • ')}
                       </p>
                     )}
-                    {project.url && (
-                      <p className="text-sm text-purple-600 mt-1">{project.url}</p>
+                    {(project.url || project.link || project.github) && (
+                      <div className="text-sm text-purple-600 mt-1 space-x-3">
+                        {(project.url || project.link) && (
+                          <a href={project.url || project.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                            View Project
+                          </a>
+                        )}
+                        {project.github && (
+                          <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                            GitHub
+                          </a>
+                        )}
+                      </div>
                     )}
                   </div>
                   {(project.startDate || project.endDate) && (

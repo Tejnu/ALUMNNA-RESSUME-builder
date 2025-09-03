@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import PDF optimization styles */
+@import '../styles/pdf-optimization.css';
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 160, 125, 241;
@@ -120,25 +123,43 @@
   color: var(--primary-text);
   border: none;
   box-shadow: 0 8px 25px var(--shadow-primary);
+  backdrop-filter: blur(5px);
 }
 
 .btn-primary:hover {
   background: var(--primary-gradient-hover);
   box-shadow: 0 12px 35px var(--shadow-primary);
+  transform: translateY(-3px);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 15px var(--shadow-primary);
+  transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-secondary {
   @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1;
-  background: rgba(112, 112, 112, 0.1);
+  background: rgba(112, 112, 112, 0.05);
   color: var(--secondary-text);
   border: 2px solid var(--secondary-text);
-  box-shadow: 0 4px 15px rgba(112, 112, 112, 0.2);
+  box-shadow: 0 4px 15px rgba(112, 112, 112, 0.15);
+  backdrop-filter: blur(5px);
 }
 
 .btn-secondary:hover {
   background: var(--secondary-text);
   color: var(--primary-text);
-  box-shadow: 0 8px 25px rgba(112, 112, 112, 0.3);
+  box-shadow: 0 8px 25px rgba(112, 112, 112, 0.25);
+  transform: translateY(-3px);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(112, 112, 112, 0.2);
+  transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-success {
@@ -146,6 +167,13 @@
   background: var(--primary-gradient);
   color: var(--primary-text);
   box-shadow: 0 6px 20px var(--shadow-primary);
+  backdrop-filter: blur(5px);
+}
+
+.btn-success:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--shadow-primary);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-accent {
@@ -229,6 +257,8 @@
   color: var(--primary-text);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 4px 20px var(--shadow-primary);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 /* Navigation Styles */
@@ -584,4 +614,5 @@ input:focus, textarea:focus, select:focus, button:focus {
 .feature-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 25px 50px var(--shadow-primary);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

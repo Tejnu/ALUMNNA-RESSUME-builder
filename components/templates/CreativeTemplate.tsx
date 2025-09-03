@@ -119,9 +119,34 @@ export function CreativeTemplate({ resumeData }: CreativeTemplateProps) {
                 <div className="grid md:grid-cols-2 gap-4">
                   {projects.map((project) => (
                     <div key={project.id} className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-200 hover:shadow-lg transition-shadow duration-300">
-                      <h3 className="text-lg font-bold text-gray-800 mb-2">{project.name}</h3>
+                      <h3 className="text-lg font-bold text-gray-800 mb-2">{project.title || project.name}</h3>
                       {project.description && (
-                        <p className="text-gray-700 text-sm">{project.description}</p>
+                        <p className="text-gray-700 text-sm mb-3">{project.description}</p>
+                      )}
+                      {project.technologies && project.technologies.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {project.technologies.map((tech, idx) => (
+                            <span key={idx} className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {(project.url || project.link || project.github) && (
+                        <div className="flex gap-3 text-sm">
+                          {(project.url || project.link) && (
+                            <a href={project.url || project.link} target="_blank" rel="noopener noreferrer" 
+                               className="text-purple-600 hover:text-purple-800 font-medium hover:underline">
+                              🔗 View
+                            </a>
+                          )}
+                          {project.github && (
+                            <a href={project.github} target="_blank" rel="noopener noreferrer" 
+                               className="text-purple-600 hover:text-purple-800 font-medium hover:underline">
+                              🐙 GitHub
+                            </a>
+                          )}
+                        </div>
                       )}
                     </div>
                   ))}

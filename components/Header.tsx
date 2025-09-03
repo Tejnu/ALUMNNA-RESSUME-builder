@@ -1,18 +1,16 @@
 'use client';
 
-import { FileText, Download, Share, Upload, Sparkles, Menu, Zap } from 'lucide-react';
+import { FileText, Download, Share, Upload, Sparkles, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useRef, useState } from 'react';
 
 interface HeaderProps {
   onFileUpload?: (file: File) => void;
-  onAIEnhance?: () => void;
-  isAIProcessing?: boolean;
   onDownloadPDF?: () => void;
 }
 
-export function Header({ onFileUpload, onAIEnhance, isAIProcessing, onDownloadPDF }: HeaderProps) {
+export function Header({ onFileUpload, onDownloadPDF }: HeaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -51,18 +49,31 @@ export function Header({ onFileUpload, onAIEnhance, isAIProcessing, onDownloadPD
         <div className="flex items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4">
-            <div className="relative w-40 h-12 rounded-xl overflow-hidden shadow-lg">
+            <div className="relative w-50 h-15 rounded-xl overflow-hidden bg-white/10 backdrop-blur-sm">
               <img 
-                src="/logo.jpg" 
-                alt="Alumna.AI Logo" 
-                className="w-full h-full object-cover"
+                src="/custom-logo.jpg"
+                alt="Alumna AI Resume Builder"
+                className="w-full h-full object-contain p-1"
+                style={{ 
+                  maxWidth: "100%", 
+                  maxHeight: "100%",
+                  filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1))",
+                  transform: "scale(1.25)"
+                }}
+                onError={(e) => {
+                  const target = e.currentTarget as HTMLImageElement;
+                  console.log('Custom logo failed to load:', target.src);
+                  // Fallback to text logo if image fails
+                  target.style.display = 'none';
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = '<div class="flex items-center justify-center w-full h-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-lg rounded-xl px-2">ALUMNA.AI</div>';
+                  }
+                }}
+                onLoad={() => {
+                  console.log('Custom logo loaded successfully');
+                }}
               />
-            </div>
-            <div className="hidden md:block">
-              <div className="flex flex-col">
-                <h1 className="text-xl font-bold text-gray-900">Alumna</h1>
-                <p className="text-sm text-gray-600">AI Resume Builder</p>
-              </div>
             </div>
           </div>
 
@@ -83,19 +94,6 @@ export function Header({ onFileUpload, onAIEnhance, isAIProcessing, onDownloadPD
             >
               <Upload className="h-4 w-4" />
               <span>Import Resume</span>
-            </Button>
-
-            <Button
-              onClick={onAIEnhance}
-              disabled={isAIProcessing}
-              className="flex items-center space-x-2 bg-black text-white font-semibold px-6 py-3 rounded-xl hover:bg-gray-800"
-            >
-              {isAIProcessing ? (
-                <div className="loading-spinner h-4 w-4" />
-              ) : (
-                <Zap className="h-4 w-4" />
-              )}
-              <span>{isAIProcessing ? 'Enhancing...' : 'AI Enhance'}</span>
             </Button>
 
             <Button
@@ -151,19 +149,6 @@ export function Header({ onFileUpload, onAIEnhance, isAIProcessing, onDownloadPD
               >
                 <Upload className="h-4 w-4 mr-2" />
                 Import Resume
-              </Button>
-
-              <Button
-                onClick={onAIEnhance}
-                disabled={isAIProcessing}
-                className="bg-black text-white hover:bg-gray-800 w-full justify-start rounded-xl"
-              >
-                {isAIProcessing ? (
-                  <div className="loading-spinner h-4 w-4 mr-2" />
-                ) : (
-                  <Zap className="h-4 w-4 mr-2" />
-                )}
-                {isAIProcessing ? 'Enhancing...' : 'AI Enhance'}
               </Button>
 
               <Button
